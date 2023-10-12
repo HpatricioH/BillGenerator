@@ -7,7 +7,7 @@ export const POST = async (req: any) => {
     const body = await req.json()
     const { name, email } = body
 
-    const user = await prisma.users.create({
+    const user = await prisma.user.create({
       data: {
         name,
         email
@@ -23,7 +23,7 @@ export const POST = async (req: any) => {
 
 export const GET = async () => {
   try {
-    const users = await prisma.users.findMany()
+    const users = await prisma.user.findMany()
 
     return NextResponse.json(users, {status: 200})
 

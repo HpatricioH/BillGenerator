@@ -10,46 +10,46 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model account {
+model Account {
   id                String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String  @map("userId") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
   provider          String
   providerAccountId String
-  refreshToken      String?
-  accessToken       String?
-  expiresAt         Int?
-  tokenType         String?
+  refresh_token      String? @db.String
+  access_token       String? @db.String
+  expires_at         Int?
+  token_type         String?
   scope             String?
-  idToken           String?
-  sessionState      String?
-  oauthTokenSecret  String?
-  oauthToken        String?
+  id_token           String? @db.String
+  session_state      String?
+  oauth_token_secret  String?
+  oauth_token        String?
 
-  user users @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
 
-model session {
+model Session {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
   sessionToken String
-  userId       String   @map("userId") @db.ObjectId
+  userId       String   @db.ObjectId
   expires      DateTime
-  user         users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model users {
+model User {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
   name          String?
   email         String    @unique
   emailVerified DateTime? @map("verifiedAt")
   image         String?
-  createdAt     DateTime  @default(now())
-  accounts      account[]
-  sessions      session[]
+  accounts      Account[]
+  sessions      Session[]
 }
 
-model verificationRequest {
+model VerificationRequest {
   id         String  @id @default(auto()) @map("_id") @db.ObjectId
   identifier String  
   token      String  @unique
