@@ -1,11 +1,10 @@
 import { getServerSession } from "next-auth"
-import authOptions from "@/auth/authOptions"
+import { authOptions } from "@/auth/authOptions"
 
 export default async function Home() {
-  // Get user session token 
-  const session = await getServerSession(authOptions)
-
-  console.log(session)
+  // Get user session 
+  const session = await getServerSession( authOptions )
+  console.log(session);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
