@@ -1,13 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
+import { MenuModalProps } from '../../lib/types/header'
 
-interface MenuModalProps {
-  setUserModal: React.Dispatch<React.SetStateAction<boolean>>
-  email: string 
-  image: string 
-  name: string 
-  signOut: () => void
-}
 
 export function MenuModal({setUserModal, email, image, name, signOut}: MenuModalProps) {
     

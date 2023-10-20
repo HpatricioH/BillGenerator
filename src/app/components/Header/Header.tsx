@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { useSession, signOut } from "next-auth/react"
 import Image from 'next/image'
-import { MenuModal } from '../ManuModal/MenuModal'
+import { MenuModal } from '../MenuModal/MenuModal'
 
 
 
