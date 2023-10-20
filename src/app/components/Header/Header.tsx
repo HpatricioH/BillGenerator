@@ -11,7 +11,7 @@ export function Header() {
   const { status } = session
 
   if (status === "loading") {
-    return <p>Loading...</p>
+    return <p className='bg-[#030712] dark:text-[#fff]'>Loading...</p>
   }
 
   const handleShowUserModal = () => {
