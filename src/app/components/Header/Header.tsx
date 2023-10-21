@@ -21,7 +21,7 @@ export function Header() {
   }
 
   return (
-    <header className='p-4 bg-[#030712] text-[#fff]'>
+    <header className='p-4 bg-[#030712] text-[#fff] '>
       <nav className='flex gap-4 justify-end'>
         <ul className='flex flex-col-reverse justify-center items-center'>
           <li onClick={handleShowUserModal} className='cursor-pointer'>

@@ -7,7 +7,7 @@ export default function BillForm() {
   const session = useSession()
 
   return (
-    <section className='bg-[#0f172a] text-[#e5e7eb] w-full p-4'>
+    <section className='bg-[#0f172a] text-[#e5e7eb] w-full p-4 rounded-xl mb-24'>
       <h1 className='text-center font-bold text-3xl pb-4'>Invoice</h1>
       <div className='pb-4'>
         <h2 className='font-bold text-xl'>{session.data?.user?.name}</h2>
