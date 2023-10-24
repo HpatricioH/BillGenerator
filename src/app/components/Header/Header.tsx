@@ -3,11 +3,13 @@ import React, { useState } from 'react'
 import { useSession, signOut } from "next-auth/react"
 import Image from 'next/image'
 import { MenuModal } from '../MenuModal/MenuModal'
+import { InvoiceModal } from '../InvoiceModal/InvoiceModal'
 
 
 
 export function Header() {
   const [userModal, setUserModal] = useState(false)
+  const [invoiceModal, setInvoiceModal] = useState(false)
   const session = useSession()
   const { status } = session
   const {email, image, name} = session?.data?.user || { name: '', email: '', image: '' }
@@ -36,6 +38,14 @@ export function Header() {
           image={image || ''}
           name={name || ''}
           signOut={() => signOut()}
+          invoiceModal={invoiceModal}
+          setInvoiceModal={setInvoiceModal}
+        />
+      )}
+      {invoiceModal && (
+        <InvoiceModal 
+          setInvoiceModal={setInvoiceModal} 
+          invoiceModal={invoiceModal}
         />
       )}
     </header>

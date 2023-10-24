@@ -4,4 +4,6 @@ export interface MenuModalProps {
   image: string 
   name: string 
   signOut: () => void
+  invoiceModal: boolean
+  setInvoiceModal: React.Dispatch<React.SetStateAction<boolean>>
 }

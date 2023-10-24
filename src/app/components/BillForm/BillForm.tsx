@@ -5,6 +5,10 @@ import { useSession } from 'next-auth/react'
 
 export default function BillForm() {
   const session = useSession()
+  const year = new Date().getFullYear()
+  const month = new Date().getMonth()
+  const day = new Date().getDate()
+  const currentDate = year +"/" +month +"/" +day
 
   return (
     <section className='bg-[#0f172a] text-[#e5e7eb] w-full p-4 rounded-xl mb-24'>
@@ -26,7 +30,7 @@ export default function BillForm() {
         </div>
         <div className='flex gap-4'>
           <p>Invoice #: 00001</p>
-          <p>date</p>
+          <p>{currentDate}</p>
         </div>
       </div>
 
