@@ -1,3 +1,4 @@
+import { Button } from '@/app/core/utils/Button'
 import { InvoiceModalProps } from '@/app/lib/types/invoice.Modald'
 import Image from 'next/image'
 import React from 'react'
@@ -12,6 +13,50 @@ export function InvoiceModal({setInvoiceModal}: InvoiceModalProps) {
     }
   }
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    console.log('submitted')
+    setInvoiceModal(false)
+  }
+
+  const companyInputs = [
+    {
+      label: 'City',
+      type: 'text',
+    },
+    {
+      label: 'Province',
+      type: 'text',
+    },
+    {
+      label: 'Postal Code',
+      type: 'text',
+    },
+    {
+      label: 'Phone Number',
+      type: 'tel',
+    }
+  ]
+
+  const billInputs = [
+    {
+      label: 'Description',
+      type: 'text',
+    },
+    {
+      label: 'Quantity',
+      type: 'number',
+    },
+    {
+      label: 'Unit Price',
+      type: 'number',
+    },
+    {
+      label: 'Amount',
+      type: 'number',
+    }
+  ]
+
   return (
     <section
       id='InvoiceModal'
@@ -22,30 +67,35 @@ export function InvoiceModal({setInvoiceModal}: InvoiceModalProps) {
         <p className='text-center'>Add your invoice preferences in order to make them appear in the invoice details</p>
         
         <h2 className='font-bold text-xl py-4 tracking-wide'>Company Details:</h2>
-        <form action="" className='flex flex-col gap-1'>
+        <form onClick={(e) => handleSubmit(e)} className='flex flex-col gap-1'>
           <label>Address:</label>
-          <input type="text" />
-          <div className='flex gap-4'>
-            <div className='flex flex-col'>
-              <label>City:</label>
-              <input type="text" />
-            </div>
-            <div  className='flex flex-col'>
-              <label>Province:</label>
-              <input type="text" />
-            </div>
-            <div className='flex flex-col'>
-              <label>Postal Code:</label>
-              <input type="text" />
-            </div>
-            <div className='flex flex-col'>
-              <label>Phone Number:</label>
-              <input type="text" />
-            </div>
+          <input className='text-black' type="text" />
+          <div className='flex gap-4 '>
+            {companyInputs.map((input, index) => {
+              return (
+                <div className='flex flex-col' key={index}>
+                  <label>{input.label}</label>
+                  <input className='text-black' type={input.type} />
+                </div>
+              )
+            })}
           </div>
           <h2 className='font-bold text-xl py-4 tracking-wide'>Services Provided to:</h2>
           <label>Bill To:</label>
-          <input type="text" />
+          <input className='text-black' type="text" />
+          <div className='flex gap-4'>
+            {billInputs.map((input, index) => {
+              return (
+                <div className='flex flex-col' key={index}>
+                  <label>{input.label}</label>
+                  <input className='text-black' type={input.type} />
+                </div>
+              )
+            })}
+          </div>
+          <div className='flex justify-center pt-6'>
+            <Button>Save Changes</Button>
+          </div>
         </form>
         <Image
           src={'/icons/icon-cross.svg'}
