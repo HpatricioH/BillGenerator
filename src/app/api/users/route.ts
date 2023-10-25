@@ -1,7 +1,6 @@
 // url: http://localhost:3000/api/users
 import prisma from '@/app/lib/db/db'
 import { NextResponse } from 'next/server'
-import authOptions from '@/auth/authOptions'
 
 // create a user
 export const POST = async (req: any) => {
