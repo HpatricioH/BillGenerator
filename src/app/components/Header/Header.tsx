@@ -12,7 +12,8 @@ export function Header() {
   const [invoiceModal, setInvoiceModal] = useState(false)
   const session = useSession()
   const { status } = session
-  const {email, image, name} = session?.data?.user || { name: '', email: '', image: '' }
+  const { email, image, name } = session?.data?.user || { name: '', email: '', image: '' }
+
 
   if (status === "loading") {
     return <p className='bg-[#030712] dark:text-[#fff]'>Loading...</p>

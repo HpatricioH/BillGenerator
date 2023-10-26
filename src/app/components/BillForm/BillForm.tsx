@@ -36,7 +36,7 @@ export default function BillForm() {
 
       <table className='mb-4 w-full'>
         <thead>
-          <tr className='[&_th]:border [&_th]:p1'>
+          <tr className='[&_th]:border [&_th]:p1 [&_th]:border-[#0f172a]'>
             <th>Description</th>
             <th>Quantity</th>
             <th>Unit Price</th>
@@ -44,7 +44,7 @@ export default function BillForm() {
           </tr>
         </thead>
         <tbody>
-          <tr className='[&_td]:border [&_th]:p1'>
+          <tr className='[&_td]:border [&_td]:p1 [&_td]:border-[#0f172a]'>
             <td>Cleaning Services</td>
             <td className='text-center'>5</td>
             <td className='text-center'>$100</td>

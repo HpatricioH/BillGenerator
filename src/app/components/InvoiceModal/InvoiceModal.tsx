@@ -1,11 +1,18 @@
+import addNewBill from '@/app/core/services/addNewBill'
 import { Button } from '@/app/core/utils/Button'
-import { InvoiceModalProps } from '@/app/lib/types/invoice.Modald'
+import { billInputs, companyInputs } from '@/app/core/utils/formInputs'
+import { InvoiceModalProps } from '@/app/lib/types/invoiceModal'
+import { useSession } from 'next-auth/react'
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 
 
 export function InvoiceModal({setInvoiceModal}: InvoiceModalProps) {
-  
+  const [errorData, setErrorData] = useState(false)
+  const [errorMsg, setErrorMsg] = useState('')
+  const session = useSession()
+  const { id } = session?.data?.user as { id: ''}
+
   const handleClose = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const target = e.target as HTMLDivElement
     if (target.id === 'InvoiceModal') {
@@ -13,49 +20,33 @@ export function InvoiceModal({setInvoiceModal}: InvoiceModalProps) {
     }
   }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log('submitted')
+
+    // get all form data 
+    const form = e.currentTarget
+    const formData = new FormData(form)
+    const { address, city, province, postalCode, phoneNumber, description, quantity, UnitPrice, amount, billTo } = Object.fromEntries(formData)
+    
+    // validations for form data 
+    if (!city || !province || !postalCode || !phoneNumber || !description || !quantity || !UnitPrice || !amount || !address || !billTo) {
+      setErrorData(true)
+      return setErrorMsg('Please fill out all fields')
+    } 
+
+    // if form data is valid, submit data to the db 
+    if(city && province && postalCode && phoneNumber && description && quantity && UnitPrice && amount && address && billTo) {
+      await addNewBill({address, city, province, postalCode, phone: phoneNumber, billTo, description, quantity, UnitPrice, amount, userId:id})
+      form.reset()
+      setErrorData(false)
+    } else {
+      setErrorData(true)
+      return setErrorMsg('Something went wrong, please try again')
+    }
     setInvoiceModal(false)
   }
 
-  const companyInputs = [
-    {
-      label: 'City',
-      type: 'text',
-    },
-    {
-      label: 'Province',
-      type: 'text',
-    },
-    {
-      label: 'Postal Code',
-      type: 'text',
-    },
-    {
-      label: 'Phone Number',
-      type: 'tel',
-    }
-  ]
-
-  const billInputs = [
-    {
-      label: 'Description',
-      type: 'text',
-    },
-    {
-      label: 'Quantity',
-      type: 'number',
-    },
-    {
-      label: 'Unit Price',
-      type: 'number',
-    },
-    {
-      label: 'Amount',
-      type: 'number',
-    }
-  ]
+  
 
   return (
     <section
@@ -67,36 +58,41 @@ export function InvoiceModal({setInvoiceModal}: InvoiceModalProps) {
         <p className='text-center'>Add your invoice preferences in order to make them appear in the invoice details</p>
         
         <h2 className='font-bold text-xl py-4 tracking-wide'>Company Details:</h2>
-        <form onClick={(e) => handleSubmit(e)} className='flex flex-col gap-1'>
+        {errorData && <p className='text-red-500 text-center'>{errorMsg}</p>}
+
+        <form onSubmit={(e) => handleSubmit(e)} className={`flex flex-col gap-1 ${errorData ? '[&_input]:border [&_input]:border-red-500': ''}`}>
           <label>Address:</label>
-          <input className='text-black' type="text" />
+          <input className='text-black' type="text" id='address' name='address'/>
           <div className='flex gap-4 '>
             {companyInputs.map((input, index) => {
               return (
                 <div className='flex flex-col' key={index}>
                   <label>{input.label}</label>
-                  <input className='text-black' type={input.type} />
+                  <input className='text-black' type={input.type} id={input.id} name={input.name} />
                 </div>
               )
             })}
           </div>
-          <h2 className='font-bold text-xl py-4 tracking-wide'>Services Provided to:</h2>
+
+          <h2 className='font-bold text-xl pt-6 pb-2 tracking-wide'>Services Provided to:</h2>
           <label>Bill To:</label>
-          <input className='text-black' type="text" />
+          <input className='text-black' type="text" id='billTo' name='billTo'/>
           <div className='flex gap-4'>
             {billInputs.map((input, index) => {
               return (
                 <div className='flex flex-col' key={index}>
                   <label>{input.label}</label>
-                  <input className='text-black' type={input.type} />
+                  <input className='text-black' type={input.type} id={input.id} name={input.name}/>
                 </div>
               )
             })}
           </div>
+
           <div className='flex justify-center pt-6'>
-            <Button>Save Changes</Button>
+            <Button type="submit">Save Changes</Button>
           </div>
         </form>
+        
         <Image
           src={'/icons/icon-cross.svg'}
           alt='close cross icon'
