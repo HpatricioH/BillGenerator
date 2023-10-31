@@ -41,7 +41,18 @@ const dataError = [{
 export const POST = async (req: any) => {
   try {
     const body = await req.json()
-    const { address, city, province, postalCode, phone, billTo, description, quantity, UnitPrice, amount, userId } = body
+    const { 
+      address, 
+      city, 
+      province, 
+      postalCode, 
+      phone, 
+      billTo, 
+      description, 
+      quantity, 
+      UnitPrice, 
+      amount, 
+      userId } = body
     
     switch (true) {
       case !address:

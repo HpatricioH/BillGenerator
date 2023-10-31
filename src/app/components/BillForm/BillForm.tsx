@@ -3,15 +3,23 @@
 import React from 'react'
 import { useSession } from 'next-auth/react'
 
-export default function BillForm() {
+export default function  BillForm () {
   const session = useSession()
   const year = new Date().getFullYear()
   const month = new Date().getMonth()
   const day = new Date().getDate()
   const currentDate = year +"/" +month +"/" +day
+  
+  const getInvoice = async () => {
+    const { id } = await session?.data?.user as { id: '' } 
+    console.log(id); 
+    const bill = await fetch(`http://localhost:3000/api/bill/${id}`)
+    const data = await bill.json()
+    console.log(data);
+  }
 
   return (
-    <section className='bg-[#FFF] text-[#0f172a] w-full p-4 rounded-xl mb-24'>
+    <section className='bg-[#FFF] text-[#0f172a] w-full p-4 rounded-xl mb-24' onClick={() => getInvoice()}>
       <h1 className='text-center font-bold text-3xl pb-4'>Invoice</h1>
       <div className='pb-4'>
         <h2 className='font-bold text-xl'>{session.data?.user?.name}</h2>
