@@ -1,9 +1,9 @@
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/auth/authOptions"
 import { redirect } from 'next/navigation'
-import BillCards from "./components/BillCards/BillCards"
+import BillForm from "../components/BillForm/BillForm"
 
-export default async function Home() {
+export default async function page() {
   // Get user session 
   const session = await getServerSession( authOptions )
 
@@ -14,7 +14,7 @@ export default async function Home() {
   return (
     <main className="flex flex-col min-h-screen items-center justify-between px-4 bg-[#030712] dark:text-[#fff]">
       <div className="z-10 max-w-5xl w-full text-sm lg:flex">
-        <BillCards />
+        <BillForm />
       </div>
     </main>
   )
