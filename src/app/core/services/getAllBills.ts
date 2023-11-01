@@ -1,5 +1,5 @@
 interface getAllBillsProps {
-  userId: string
+  userId: string;
 }
 
 const getAllBills = async ({ userId }: getAllBillsProps) => {
