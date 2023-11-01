@@ -28,7 +28,7 @@ export function Header() {
       <nav className='flex gap-4 justify-end'>
         <ul className='flex flex-col-reverse justify-center items-center'>
           <li onClick={handleShowUserModal} className='cursor-pointer'>
-            <Image src={session.data?.user?.image || ''} alt='user image' width={50} height={50} className='rounded-full' />
+            <Image src={session.data?.user?.image || ''} alt='user image' width={50} height={50} className='rounded-xl' />
           </li>
         </ul>
       </nav>

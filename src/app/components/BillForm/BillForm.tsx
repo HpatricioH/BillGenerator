@@ -1,32 +1,48 @@
 'use client'
 
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
+import { useParams } from 'next/navigation'
+import getBill from '@/app/core/services/getBill'
 
-export default function BillForm() {
+export default function  BillForm () {
   const session = useSession()
+  const [invoice, setInvoice] = React.useState<[]>([])
+  const { address, city, province, postalCode, phone, billTo, amount, description, quantity, UnitPrice } = invoice as any
   const year = new Date().getFullYear()
   const month = new Date().getMonth()
   const day = new Date().getDate()
   const currentDate = year +"/" +month +"/" +day
+  const params = useParams()
+  const { id } = params
+
+  const getInvoice = useCallback(async () => {
+    // get one bill by id 
+    const response = await getBill({ id: id as string })
+    setInvoice(response);
+  }, [id]);
+  
+  useEffect(() => {
+    getInvoice()
+  }, [getInvoice])
 
   return (
     <section className='bg-[#FFF] text-[#0f172a] w-full p-4 rounded-xl mb-24'>
       <h1 className='text-center font-bold text-3xl pb-4'>Invoice</h1>
       <div className='pb-4'>
         <h2 className='font-bold text-xl'>{session.data?.user?.name}</h2>
-        <p>My Address: 30 Isaac Street</p>
-        <p>My City: Elmira, Ontario N3B 0E2</p>
+        <p>{address}</p>
+        <p>{city}, {province} {postalCode}</p>
       </div>
 
       <div className='pb-4'>
-        <p>Phone: 513-8708-128</p>
+        <p>{phone}</p>
         <p>{session.data?.user?.email}</p>
       </div>
       
       <div className='flex justify-between pb-4'>
         <div>
-          <p>Bill To: Address that the invoice is directed to</p>
+          <p>{billTo}</p>
         </div>
         <div className='flex gap-4'>
           <p>Invoice #: 00001</p>
@@ -45,15 +61,15 @@ export default function BillForm() {
         </thead>
         <tbody>
           <tr className='[&_td]:border [&_td]:p1 [&_td]:border-[#0f172a]'>
-            <td>Cleaning Services</td>
-            <td className='text-center'>5</td>
-            <td className='text-center'>$100</td>
-            <td className='text-center'>$500</td>
+            <td>{description}</td>
+            <td className='text-center'>{quantity}</td>
+            <td className='text-center'>{UnitPrice}</td>
+            <td className='text-center'>${amount}</td>
           </tr>
         </tbody>
       </table>
 
-      <p className='text-right pb-4'>Total: $500</p>
+      <p className='text-right pb-4'>Total: ${amount*UnitPrice}</p>
 
       <div className='flex flex-col gap-2'>
         <h3>Service Details</h3>
