@@ -4,17 +4,30 @@ import React, { useCallback, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useParams } from 'next/navigation'
 import getBill from '@/app/core/services/getBill'
+import Loading from '@/app/core/utils/loading'
+
+const year = new Date().getFullYear()
+const month = new Date().getMonth()
+const day = new Date().getDate()
 
 export default function  BillForm () {
   const session = useSession()
   const [invoice, setInvoice] = React.useState<[]>([])
-  const { address, city, province, postalCode, phone, billTo, amount, description, quantity, UnitPrice } = invoice as any
-  const year = new Date().getFullYear()
-  const month = new Date().getMonth()
-  const day = new Date().getDate()
-  const currentDate = year +"/" +month +"/" +day
+  const { status } = session
   const params = useParams()
   const { id } = params
+  const { 
+    address, 
+    city, 
+    province, 
+    postalCode, 
+    phone, 
+    billTo, 
+    amount, 
+    description, 
+    quantity, 
+    UnitPrice } = invoice as any
+  const currentDate = year +"/" +month +"/" +day
 
   const getInvoice = useCallback(async () => {
     // get one bill by id 
@@ -26,8 +39,12 @@ export default function  BillForm () {
     getInvoice()
   }, [getInvoice])
 
+  if (status === "loading" && !invoice.length) {
+    return <Loading />
+  }
+
   return (
-    <section className='bg-[#FFF] text-[#0f172a] w-full p-4 rounded-xl mb-24'>
+    <section className={`${status === 'loading' && !invoice.length ? 'hidden' : 'bg-[#FFF] text-[#0f172a] w-full p-4 rounded-xl mb-24'}`}>
       <h1 className='text-center font-bold text-3xl pb-4'>Invoice</h1>
       <div className='pb-4'>
         <h2 className='font-bold text-xl'>{session.data?.user?.name}</h2>
@@ -69,7 +86,7 @@ export default function  BillForm () {
         </tbody>
       </table>
 
-      <p className='text-right pb-4'>Total: ${amount*UnitPrice}</p>
+      <p className='text-right pb-4'>Total: ${`${!amount ? '' : amount*UnitPrice}`}</p>
 
       <div className='flex flex-col gap-2'>
         <h3>Service Details</h3>
