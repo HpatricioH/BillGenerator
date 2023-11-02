@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react'
 import { useParams } from 'next/navigation'
 import getBill from '@/app/core/services/getBill'
 import Loading from '@/app/core/utils/loading'
+import { useGetABill } from '@/app/lib/hooks/useGetABill'
 
 const year = new Date().getFullYear()
 const month = new Date().getMonth()
@@ -12,10 +13,11 @@ const day = new Date().getDate()
 
 export default function  BillForm () {
   const session = useSession()
-  const [invoice, setInvoice] = React.useState<[]>([])
-  const { status } = session
   const params = useParams()
   const { id } = params
+  const { status } = session
+  const { invoice } = useGetABill({ id }) 
+  
   const { 
     address, 
     city, 
@@ -28,16 +30,6 @@ export default function  BillForm () {
     quantity, 
     UnitPrice } = invoice as any
   const currentDate = year +"/" +month +"/" +day
-
-  const getInvoice = useCallback(async () => {
-    // get one bill by id 
-    const response = await getBill({ id: id as string })
-    setInvoice(response);
-  }, [id]);
-  
-  useEffect(() => {
-    getInvoice()
-  }, [getInvoice])
 
   if (status === "loading" && !invoice.length) {
     return <Loading />
