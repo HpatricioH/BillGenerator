@@ -6,26 +6,14 @@ import { useEffect, useState } from "react"
 import { useRouter } from 'next/navigation'
 import Image from "next/image"
 import Loading from "@/app/core/utils/loading"
+import { useGetBill } from "@/app/lib/hooks/useGetBill"
 
 
 export default function BillCards() {
   const session = useSession()
-  const [invoices, setInvoices] = useState<any[]>([]) 
+  const { invoices } = useGetBill()
   const router = useRouter()
   const { status } = session
-  
-  useEffect(() => {
-    const getInvoices = async () => {
-      const id = (await session?.data?.user as { id: string })?.id
-
-      if (id) {
-        const invoice = await getAllBills({ userId: id }) 
-        setInvoices(invoice)
-      }
-
-    }
-    getInvoices()
-  }, [session.data?.user])
 
   if (status === "loading" && !invoices.length) {
     return <Loading />
