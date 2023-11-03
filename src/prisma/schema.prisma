@@ -71,6 +71,8 @@ model Bill {
   quantity    Int
   UnitPrice   Float
   amount      Float
+  numMonth    Int
+  createdAt   DateTime
   userId      String  @db.ObjectId
   user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

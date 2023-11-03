@@ -3,31 +3,42 @@
 import React, { useCallback, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useParams } from 'next/navigation'
-import getBill from '@/app/core/services/getBill'
+import Loading from '@/app/core/utils/loading'
+import { useGetABill } from '@/app/lib/hooks/useGetABill'
+import { InvoiceServiceDetails } from '../InvoiceServiceDetails/InvoiceServiceDetails'
+
+const year = new Date().getFullYear()
+const month = new Date().getMonth() + 1
+const day = new Date().getDate()
 
 export default function  BillForm () {
   const session = useSession()
-  const [invoice, setInvoice] = React.useState<[]>([])
-  const { address, city, province, postalCode, phone, billTo, amount, description, quantity, UnitPrice } = invoice as any
-  const year = new Date().getFullYear()
-  const month = new Date().getMonth()
-  const day = new Date().getDate()
-  const currentDate = year +"/" +month +"/" +day
   const params = useParams()
   const { id } = params
+  const { status } = session
+  const { invoice } = useGetABill({ id }) 
+  const currentDate = year +"/" +month +"/" +day
 
-  const getInvoice = useCallback(async () => {
-    // get one bill by id 
-    const response = await getBill({ id: id as string })
-    setInvoice(response);
-  }, [id]);
-  
-  useEffect(() => {
-    getInvoice()
-  }, [getInvoice])
+  const { 
+    address, 
+    city, 
+    province, 
+    postalCode, 
+    phone, 
+    billTo, 
+    amount, 
+    description, 
+    numMonth,
+    createdAt,
+    quantity, 
+    UnitPrice } = invoice as any
+
+  if (status === "loading" || invoice.length === 0) {
+    return <Loading />
+  }
 
   return (
-    <section className='bg-[#FFF] text-[#0f172a] w-full p-4 rounded-xl mb-24'>
+    <section className={`${invoice.length === 0 ? 'hidden' : 'bg-[#FFF] text-[#0f172a] w-full p-4 rounded-xl mb-24'}`}>
       <h1 className='text-center font-bold text-3xl pb-4'>Invoice</h1>
       <div className='pb-4'>
         <h2 className='font-bold text-xl'>{session.data?.user?.name}</h2>
@@ -46,7 +57,7 @@ export default function  BillForm () {
         </div>
         <div className='flex gap-4'>
           <p>Invoice #: 00001</p>
-          <p>{currentDate}</p>
+          <p>{new Date(createdAt).toLocaleDateString()}</p>
         </div>
       </div>
 
@@ -63,17 +74,17 @@ export default function  BillForm () {
           <tr className='[&_td]:border [&_td]:p1 [&_td]:border-[#0f172a]'>
             <td>{description}</td>
             <td className='text-center'>{quantity}</td>
-            <td className='text-center'>{UnitPrice}</td>
-            <td className='text-center'>${amount}</td>
+            <td className='text-center'>${UnitPrice}</td>
+            <td className='text-center'>${`${!UnitPrice ? '' : quantity*UnitPrice}`}</td>
           </tr>
         </tbody>
       </table>
 
-      <p className='text-right pb-4'>Total: ${amount*UnitPrice}</p>
+      <p className='text-right pb-4'>Total: ${`${!UnitPrice ? '' : quantity*UnitPrice}`}</p>
 
       <div className='flex flex-col gap-2'>
-        <h3>Service Details</h3>
-        <p>add day, Month day, year</p>
+        <h3 className='font-bold tracking-normal text-lg'>Service Details</h3>
+        <InvoiceServiceDetails numMonth={numMonth}/>
       </div>
     </section>
   )

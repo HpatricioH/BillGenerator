@@ -4,6 +4,7 @@ import { useSession, signOut } from "next-auth/react"
 import Image from 'next/image'
 import { MenuModal } from '../MenuModal/MenuModal'
 import { InvoiceModal } from '../InvoiceModal/InvoiceModal'
+import Link from 'next/link'
 
 
 
@@ -15,25 +16,37 @@ export function Header() {
   const { email, image, name } = session?.data?.user || { name: '', email: '', image: '' }
 
 
-  if (status === "loading") {
-    return <p className='bg-[#030712] dark:text-[#fff]'>Loading...</p>
-  }
-
   const handleShowUserModal = () => {
     !userModal ? setUserModal(true) : setUserModal(false)
   }
 
   return (
-    <header className='p-4 bg-[#030712] text-[#fff] '>
+    <header className={`${status === 'loading' ? 'hidden' : 'p-4 bg-[#030712] text-[#fff]'}`}>
       <nav className='flex gap-4 justify-end'>
-        <ul className='flex flex-col-reverse justify-center items-center'>
-          <li onClick={handleShowUserModal} className='cursor-pointer'>
-            <Image src={session.data?.user?.image || ''} alt='user image' width={50} height={50} className='rounded-xl' />
+        <ul className='flex flex-row w-full'>
+          <li className='flex-1 cursor-pointer'>
+            <Link href='/' className='flex'>
+              <Image
+                src='/images/logo.png'
+                alt='logo'
+                width={50}
+                height={50}
+              />
+              <p className='flex items-center uppercase font-bold tracking-widest'>Invoice Generator</p>
+            </Link>
+          </li>
+          <li onClick={handleShowUserModal} className='cursor-pointer flex-2 pt-[0.3rem]'>
+            <Image
+              src={session?.data?.user?.image || '/images/person-fill.svg'}
+              alt='user image'
+              width={50}
+              height={50}
+              className='rounded-xl' />
           </li>
         </ul>
       </nav>
       {userModal && (
-        <MenuModal 
+        <MenuModal
           setUserModal={setUserModal}
           email={email || ''}
           image={image || ''}
@@ -44,8 +57,8 @@ export function Header() {
         />
       )}
       {invoiceModal && (
-        <InvoiceModal 
-          setInvoiceModal={setInvoiceModal} 
+        <InvoiceModal
+          setInvoiceModal={setInvoiceModal}
           invoiceModal={invoiceModal}
         />
       )}
