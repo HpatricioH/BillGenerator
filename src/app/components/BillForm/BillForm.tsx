@@ -3,12 +3,12 @@
 import React, { useCallback, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useParams } from 'next/navigation'
-import getBill from '@/app/core/services/getBill'
 import Loading from '@/app/core/utils/loading'
 import { useGetABill } from '@/app/lib/hooks/useGetABill'
+import { InvoiceServiceDetails } from '../InvoiceServiceDetails/InvoiceServiceDetails'
 
 const year = new Date().getFullYear()
-const month = new Date().getMonth()
+const month = new Date().getMonth() + 1
 const day = new Date().getDate()
 
 export default function  BillForm () {
@@ -18,6 +18,7 @@ export default function  BillForm () {
   const { status } = session
   const { invoice } = useGetABill({ id }) 
   const currentDate = year +"/" +month +"/" +day
+
   const { 
     address, 
     city, 
@@ -27,6 +28,8 @@ export default function  BillForm () {
     billTo, 
     amount, 
     description, 
+    numMonth,
+    createdAt,
     quantity, 
     UnitPrice } = invoice as any
 
@@ -54,7 +57,7 @@ export default function  BillForm () {
         </div>
         <div className='flex gap-4'>
           <p>Invoice #: 00001</p>
-          <p>{currentDate}</p>
+          <p>{new Date(createdAt).toLocaleDateString()}</p>
         </div>
       </div>
 
@@ -71,17 +74,17 @@ export default function  BillForm () {
           <tr className='[&_td]:border [&_td]:p1 [&_td]:border-[#0f172a]'>
             <td>{description}</td>
             <td className='text-center'>{quantity}</td>
-            <td className='text-center'>{UnitPrice}</td>
-            <td className='text-center'>${amount}</td>
+            <td className='text-center'>${UnitPrice}</td>
+            <td className='text-center'>${`${!UnitPrice ? '' : quantity*UnitPrice}`}</td>
           </tr>
         </tbody>
       </table>
 
-      <p className='text-right pb-4'>Total: ${`${!amount ? '' : amount*UnitPrice}`}</p>
+      <p className='text-right pb-4'>Total: ${`${!UnitPrice ? '' : quantity*UnitPrice}`}</p>
 
       <div className='flex flex-col gap-2'>
-        <h3>Service Details</h3>
-        <p>add day, Month day, year</p>
+        <h3 className='font-bold tracking-normal text-lg'>Service Details</h3>
+        <InvoiceServiceDetails numMonth={numMonth}/>
       </div>
     </section>
   )

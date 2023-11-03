@@ -35,7 +35,11 @@ const dataError = [{
 }, {
   message: 'User Id is required',
   internal_code: 'missing_userId'
-}]
+},{
+  message: 'Month number is required',
+  internal_code: 'missing_numMonth'
+}
+]
 
 // create a bill
 export const POST = async (req: any) => {
@@ -50,7 +54,8 @@ export const POST = async (req: any) => {
       billTo, 
       description, 
       quantity, 
-      UnitPrice, 
+      UnitPrice,
+      numMonth, 
       amount, 
       userId } = body
     
@@ -77,6 +82,8 @@ export const POST = async (req: any) => {
         return NextResponse.json(dataError[9], {status: 400})
       case !userId:
         return NextResponse.json(dataError[10], {status: 400})
+      case !numMonth:
+        return NextResponse.json(dataError[11], {status: 400})
     }
 
     const bill = await prisma.bill.create({
@@ -90,7 +97,9 @@ export const POST = async (req: any) => {
         description,
         quantity,
         UnitPrice,
+        numMonth,
         amount,
+        createdAt: new Date(),
         userId
       }
     })
