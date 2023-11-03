@@ -4,6 +4,7 @@ import { useSession, signOut } from "next-auth/react"
 import Image from 'next/image'
 import { MenuModal } from '../MenuModal/MenuModal'
 import { InvoiceModal } from '../InvoiceModal/InvoiceModal'
+import Link from 'next/link'
 
 
 
@@ -22,8 +23,19 @@ export function Header() {
   return (
     <header className={`${status === 'loading' ? 'hidden' : 'p-4 bg-[#030712] text-[#fff]'}`}>
       <nav className='flex gap-4 justify-end'>
-        <ul className='flex flex-col-reverse justify-center items-center'>
-          <li onClick={handleShowUserModal} className='cursor-pointer'>
+        <ul className='flex flex-row w-full'>
+          <li className='flex-1 cursor-pointer'>
+            <Link href='/' className='flex'>
+              <Image
+                src='/images/logo.png'
+                alt='logo'
+                width={50}
+                height={50}
+              />
+              <p className='flex items-center uppercase font-bold tracking-widest'>Invoice Generator</p>
+            </Link>
+          </li>
+          <li onClick={handleShowUserModal} className='cursor-pointer flex-2 pt-[0.3rem]'>
             <Image
               src={session?.data?.user?.image || '/images/person-fill.svg'}
               alt='user image'

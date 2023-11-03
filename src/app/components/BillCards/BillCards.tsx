@@ -15,7 +15,7 @@ export default function BillCards() {
   const router = useRouter()
   const { status } = session
 
-  if (status === "loading" && !invoices.length) {
+  if (status === "loading" || invoices.length === 0) {
     return <Loading />
   }
   
@@ -24,9 +24,9 @@ export default function BillCards() {
   }
   
   return (
-    <section className={`${status === 'loading' && !invoices.length ? 'hidden' : 'bg-[#111827] p-4 rounded-xl w-full'}`}>
+    <section className={`${invoices.length === 0 ? 'hidden' : 'bg-[#111827] p-4 rounded-xl w-full'}`}>
       <h1 className='text-center font-bold text-3xl pb-4'>Invoices</h1>
-      <div className="flex gap-3 p-4 ">
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         {invoices?.map((invoice, index) => (
           <div 
             key={index} 
@@ -40,7 +40,7 @@ export default function BillCards() {
                 alt="invoice"
                 width={330}
                 height={300}
-                className="rounded-lg border border-[#111827] mb-2"
+                className="rounded-lg border border-[#111827] mb-2 w-full"
               />
               <p>{invoice?.description}</p>
             </div>

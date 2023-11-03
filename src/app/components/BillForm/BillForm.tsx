@@ -17,7 +17,7 @@ export default function  BillForm () {
   const { id } = params
   const { status } = session
   const { invoice } = useGetABill({ id }) 
-  
+  const currentDate = year +"/" +month +"/" +day
   const { 
     address, 
     city, 
@@ -29,14 +29,13 @@ export default function  BillForm () {
     description, 
     quantity, 
     UnitPrice } = invoice as any
-  const currentDate = year +"/" +month +"/" +day
 
-  if (status === "loading" && !invoice.length) {
+  if (status === "loading" || invoice.length === 0) {
     return <Loading />
   }
 
   return (
-    <section className={`${status === 'loading' && !invoice.length ? 'hidden' : 'bg-[#FFF] text-[#0f172a] w-full p-4 rounded-xl mb-24'}`}>
+    <section className={`${invoice.length === 0 ? 'hidden' : 'bg-[#FFF] text-[#0f172a] w-full p-4 rounded-xl mb-24'}`}>
       <h1 className='text-center font-bold text-3xl pb-4'>Invoice</h1>
       <div className='pb-4'>
         <h2 className='font-bold text-xl'>{session.data?.user?.name}</h2>
