@@ -7,9 +7,7 @@ import Loading from '@/app/core/utils/loading'
 import { useGetABill } from '@/app/lib/hooks/useGetABill'
 import { InvoiceServiceDetails } from '../InvoiceServiceDetails/InvoiceServiceDetails'
 
-const year = new Date().getFullYear()
-const month = new Date().getMonth() + 1
-const day = new Date().getDate()
+
 
 export default function  BillForm () {
   const session = useSession()
@@ -17,7 +15,6 @@ export default function  BillForm () {
   const { id } = params
   const { status } = session
   const { invoice } = useGetABill({ id }) 
-  const currentDate = year +"/" +month +"/" +day
 
   const { 
     address, 

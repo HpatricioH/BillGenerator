@@ -1,8 +1,6 @@
 'use client'
 
-import getAllBills from "@/app/core/services/getAllBills"
 import { useSession } from 'next-auth/react'
-import { useEffect, useState } from "react"
 import { useRouter } from 'next/navigation'
 import Image from "next/image"
 import Loading from "@/app/core/utils/loading"
@@ -14,8 +12,19 @@ export default function BillCards() {
   const { invoices } = useGetBill()
   const router = useRouter()
   const { status } = session
-  const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-
+  const month = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"];
 
   if (status === "loading" || invoices.length === 0) {
     return <Loading />
