@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/autobill",
+      "schedule": "0 0 1 * *"
+    }
+  ]
+}
