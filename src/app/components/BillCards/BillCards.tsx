@@ -1,13 +1,10 @@
 'use client'
 
-import getAllBills from "@/app/core/services/getAllBills"
 import { useSession } from 'next-auth/react'
-import { useEffect, useState } from "react"
 import { useRouter } from 'next/navigation'
 import Image from "next/image"
 import Loading from "@/app/core/utils/loading"
 import { useGetBill } from "@/app/lib/hooks/useGetBill"
-import { autoInvoiceGenerator } from "@/app/core/utils/autoInvoiceGenerator"
 
 
 export default function BillCards() {
@@ -36,8 +33,6 @@ export default function BillCards() {
   const redirectToInvoice = (id: string) => {
     router.push(`/${id}`)
   }
-
-  autoInvoiceGenerator()
   
   return (
     <section className={`${invoices.length === 0 ? 'hidden' : 'bg-[#111827] p-4 rounded-xl w-full'}`}>
