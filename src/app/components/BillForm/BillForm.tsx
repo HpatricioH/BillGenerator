@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation'
 import Loading from '@/app/core/utils/loading'
 import { useGetABill } from '@/app/lib/hooks/useGetABill'
 import { InvoiceServiceDetails } from '../InvoiceServiceDetails/InvoiceServiceDetails'
+import { Button } from '@/app/core/utils/Button'
 
 
 
@@ -15,6 +16,10 @@ export default function  BillForm () {
   const { id } = params
   const { status } = session
   const { invoice } = useGetABill({ id }) 
+
+  const handlePrintInvoice = useCallback(() => {
+    window.print()
+  }, [])
 
   const { 
     address, 
@@ -82,6 +87,10 @@ export default function  BillForm () {
       <div className='flex flex-col gap-2'>
         <h3 className='font-bold tracking-normal text-lg'>Service Details</h3>
         <InvoiceServiceDetails numMonth={numMonth}/>
+      </div>
+
+      <div>
+        <Button onClick={handlePrintInvoice}>Print</Button>
       </div>
     </section>
   )

@@ -21,7 +21,7 @@ export function Header() {
   }
 
   return (
-    <header className={`${status === 'loading' ? 'hidden' : 'p-4 bg-[#030712] text-[#fff]'}`}>
+    <header className={`${status === 'loading' ? 'hidden' : 'p-4 bg-[#030712] text-[#fff] print:hidden'}`}>
       <nav className='flex gap-4 justify-end'>
         <ul className='flex flex-row w-full'>
           <li className='flex-1 cursor-pointer'>
