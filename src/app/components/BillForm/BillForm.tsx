@@ -54,7 +54,7 @@ export default function  BillForm () {
       </div>
       
       <div className='flex justify-between pb-4'>
-        <div>
+        <div className='w-[28rem]'>
           <p>{billTo}</p>
         </div>
         <div className='flex gap-4'>
@@ -74,7 +74,7 @@ export default function  BillForm () {
         </thead>
         <tbody>
           <tr className='[&_td]:border [&_td]:p1 [&_td]:border-[#0f172a]'>
-            <td>{description}</td>
+            <td className='pl-3'>{description}</td>
             <td className='text-center'>{quantity}</td>
             <td className='text-center'>${UnitPrice}</td>
             <td className='text-center'>${`${!UnitPrice ? '' : quantity*UnitPrice}`}</td>
@@ -89,8 +89,8 @@ export default function  BillForm () {
         <InvoiceServiceDetails numMonth={numMonth}/>
       </div>
 
-      <div>
-        <Button onClick={handlePrintInvoice}>Print</Button>
+      <div className='text-xs font-bold tracking-wider text-end pt-4'>
+        <Button onClick={handlePrintInvoice} className={'dark:bg-opacity-0  group-hover:bg-opacity-20'}>Print</Button>
       </div>
     </section>
   )
