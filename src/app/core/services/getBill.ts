@@ -3,7 +3,7 @@ interface getABillProps {
 }
 
 const getBill = async ({ id }: getABillProps) => {
-  const URL = `http://localhost:3000/api/bill/${id}`
+  const URL = `https://bill-generator-kappa.vercel.app/api/bill/${id}`
 
   const response = await fetch(URL)
   
