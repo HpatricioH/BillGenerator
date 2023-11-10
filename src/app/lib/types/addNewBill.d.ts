@@ -8,6 +8,7 @@ export interface NewBillProps {
   description: string | object
   quantity: string | object
   UnitPrice: string | object
+  numMonth: number | object
   amount: string | object
   userId: string | object
 }
