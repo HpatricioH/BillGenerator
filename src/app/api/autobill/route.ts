@@ -11,7 +11,7 @@ export const POST = async () => {
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' } as const
     const fridays: string[] = []
     const userId = process.env.USER_ID
-    const url = process.env.URL
+    const url = process.env.NEXT_PUBLIC_URL
 
     // get all fridays of the month 
     for (let day = firstDay; day <= lastDay; day.setDate(day.getDate() + 1)) {

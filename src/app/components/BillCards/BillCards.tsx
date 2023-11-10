@@ -43,7 +43,7 @@ export default function BillCards() {
             key={index} 
             className="bg-[#e5e7eb] p-[0.10rem] cursor-pointer rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 " 
             onClick={() => redirectToInvoice(invoice?.id)}>
-            <div className="transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-70 p-2">
+            <div className="transition-all ease-in duration-75 bg-gray-900 rounded-md group-hover:bg-opacity-70 p-2">
               <h1 className="font-bold text-lg tracking-wide text-center pb-2">{month[invoice.numMonth]}</h1>
               <Image
                 src="/images/invoice.png"

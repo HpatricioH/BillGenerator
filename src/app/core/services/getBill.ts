@@ -3,9 +3,10 @@ interface getABillProps {
 }
 
 const getBill = async ({ id }: getABillProps) => {
-  const URL = `https://bill-generator-kappa.vercel.app/api/bill/${id}`
+  const URL = process.env.NEXT_PUBLIC_URL
+  const fetchUrl = `${URL}/api/bill/${id}`
 
-  const response = await fetch(URL)
+  const response = await fetch(fetchUrl)
   
   return await response.json()
 }

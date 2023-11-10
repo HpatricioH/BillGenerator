@@ -14,13 +14,14 @@ const addNewBill = async (
     UnitPrice,
     amount,
     userId }: NewBillProps) => {
-  const URL = 'https://bill-generator-kappa.vercel.app/api/bill'
+  const URL = process.env.NEXT_PUBLIC_URL    
+  const fetchUrl = `${URL}/api/bill`
 
   const numQuantity = Number(quantity)
   const numUnitPrice = Number(UnitPrice)
   const numAmount = Number(amount)
 
-  const response = await fetch(URL, {
+  const response = await fetch(fetchUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

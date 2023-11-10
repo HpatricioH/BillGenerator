@@ -12,7 +12,7 @@ export default async function page() {
   }
 
   return (
-    <main className="flex flex-col min-h-screen items-center justify-between px-4 bg-[#030712] dark:text-[#fff]">
+    <main className="flex flex-col min-h-screen items-center justify-between px-4 bg-[#030712] text-[#fff]">
       <div className="z-10 max-w-5xl w-full text-sm lg:flex">
         <BillForm />
       </div>

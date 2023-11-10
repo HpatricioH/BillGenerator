@@ -90,7 +90,7 @@ export default function  BillForm () {
       </div>
 
       <div className='text-xs font-bold tracking-wider text-end pt-4'>
-        <Button onClick={handlePrintInvoice} className={'dark:bg-opacity-0  group-hover:bg-opacity-20'}>Print</Button>
+        <Button onClick={handlePrintInvoice} className={'bg-opacity-0  group-hover:bg-opacity-20'}>Print</Button>
       </div>
     </section>
   )
