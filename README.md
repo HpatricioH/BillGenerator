@@ -1,9 +1,9 @@
 
-<div style="text-align: center">
+<p align="center">
   <a href="https://bill-generator-kappa.vercel.app/" style="text-decoration: none;">
     <img src="public/images/logo.png" alt="Virtual Coffee" height="200">
   </a>
-</div>
+</p>
 
 # What is [Bill Generator](https://bill-generator-kappa.vercel.app/) Generator? 🤔
 
