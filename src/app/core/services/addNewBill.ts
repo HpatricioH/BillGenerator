@@ -12,6 +12,7 @@ const addNewBill = async (
     description,
     quantity,
     UnitPrice,
+    numMonth,
     amount,
     userId }: NewBillProps) => {
   const URL = process.env.NEXT_PUBLIC_URL    
@@ -26,7 +27,20 @@ const addNewBill = async (
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ address, city, province, postalCode, phone, billTo, description, quantity: numQuantity, UnitPrice: numUnitPrice, amount: numAmount, userId })
+    body: JSON.stringify({ 
+      address, 
+      city, 
+      province, 
+      postalCode, 
+      phone, 
+      billTo, 
+      description, 
+      quantity: numQuantity, 
+      UnitPrice: numUnitPrice, 
+      numMonth,
+      amount: numAmount, 
+      userId 
+    })
   })
 
   return await response.json()
