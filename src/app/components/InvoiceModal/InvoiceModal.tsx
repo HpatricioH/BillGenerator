@@ -36,7 +36,20 @@ export function InvoiceModal({setInvoiceModal}: InvoiceModalProps) {
 
     // if form data is valid, submit data to the db 
     if(city && province && postalCode && phoneNumber && description && quantity && UnitPrice && amount && address && billTo) {
-      await addNewBill({address, city, province, postalCode, phone: phoneNumber, billTo, description, quantity, UnitPrice, amount, userId:id})
+      await addNewBill({
+        address, 
+        city, 
+        province, 
+        postalCode, 
+        phone: phoneNumber, 
+        billTo, 
+        description, 
+        quantity, 
+        UnitPrice,
+        numMonth: new Date().getMonth(),
+        amount, 
+        userId:id
+      })
       form.reset()
       setErrorData(false)
     } else {
@@ -45,8 +58,6 @@ export function InvoiceModal({setInvoiceModal}: InvoiceModalProps) {
     }
     setInvoiceModal(false)
   }
-
-  
 
   return (
     <section
