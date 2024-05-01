@@ -4,7 +4,10 @@ import { Inter } from 'next/font/google'
 import { AuthProvider } from '@/auth/providers'
 import { Header } from './components/Header/Header'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({
+  subsets: ['latin'],
+  variable: "--font-sans"
+})
 
 export const metadata: Metadata = {
   title: 'Bill Generator',
@@ -20,7 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} overflow-hidden`}>
         <AuthProvider>
-          <Header/>
+          <Header />
           {children}
         </AuthProvider>
       </body>
