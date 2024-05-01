@@ -5,7 +5,7 @@
   </a>
 </p>
 
-# What is [Bill Generator](https://bill-generator-kappa.vercel.app/) Generator? 🤔
+# What is [Bill Generator](https://bill-generator-kappa.vercel.app/)? 🤔
 
 Bill Generator is a web application designed to automate the process of invoice creation. It provides a user-friendly interface where users can input the necessary details such as address, bill-to name, description, quantity, unit price, and more to generate a professional-looking invoice.
 
