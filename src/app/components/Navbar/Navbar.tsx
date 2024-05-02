@@ -6,8 +6,6 @@ import { useSession, signOut } from "next-auth/react"
 
 export default function Navbar() {
   const session = useSession()
-  const { status } = session
-  const { email, image, name } = session?.data?.user || { name: '', email: '', image: '' }
 
   return (
     <nav className="navbar bg-dark-primary">

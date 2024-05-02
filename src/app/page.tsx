@@ -1,20 +1,19 @@
-import { getServerSession } from "next-auth"
-import { authOptions } from "@/auth/authOptions"
-import { redirect } from 'next/navigation'
-import BillCards from "./components/BillCards/BillCards"
 
 export default async function Home() {
-  // Get user session 
-  const session = await getServerSession( authOptions )
-
-  if ( !session ) {
-    redirect( '/api/auth/signin' )
-  }
-
   return (
-    <main className="flex flex-col min-h-screen items-center justify-between px-4 bg-[#030712] text-[#fff]">
-      <div className="z-10 max-w-5xl w-full text-sm lg:flex">
-        <BillCards />
+    <main className="hero h-[calc(100vh-10.3rem)] bg-dark-primary text-[#fff] relative">
+      <div className="hero-content text-center absolute md:top-40 lg:top-44 xl:top-52 ">
+        <div className="max-w-md">
+          <h1 className="text-5xl font-bold">
+            Bill<span className="text-dark-secondary uppercase"> Generator</span>
+          </h1>
+          <div className="flex flex-col items-center gap-2">
+            <p className="py-6">
+              Generate your bills quick and easy
+            </p>
+            <button className="btn btn-active">Get Started</button>
+          </div>
+        </div>
       </div>
     </main>
   )
