@@ -2,10 +2,13 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useSession, signOut } from "next-auth/react"
+import { signOut } from "next-auth/react"
 
-export default function Navbar() {
-  const session = useSession()
+interface NavbarProps {
+  image: string | null | undefined;
+}
+
+export default function Navbar({ image }: NavbarProps) {
 
   return (
     <nav className="navbar bg-dark-primary">
@@ -24,7 +27,7 @@ export default function Navbar() {
           <div tabIndex={0} role="button" className="btn  btn-circle avatar">
             <div className="w-10 rounded-full">
               <Image
-                src={session?.data?.user?.image ?? '/images/person-fill.svg'}
+                src={image ?? '/images/person-fill.svg'}
                 alt='user image'
                 width={50}
                 height={50}
@@ -38,7 +41,11 @@ export default function Navbar() {
                 Dashboard
               </Link>
             </li>
-            <li className='btn btn-sm bg-dark-primary' onClick={() => signOut()}>Logout</li>
+            {
+              image
+                ? <li className='btn btn-sm bg-dark-primary' onClick={() => signOut()}>Logout</li>
+                : <li className='btn btn-sm bg-dark-primary'>Login</li>
+            }
           </ul>
         </div>
       </div>
