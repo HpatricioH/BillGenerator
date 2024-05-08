@@ -9,7 +9,6 @@ interface NavbarProps {
 }
 
 export default function Navbar({ image }: NavbarProps) {
-
   return (
     <nav className="navbar bg-dark-primary">
       <div className="flex-1">
@@ -44,7 +43,7 @@ export default function Navbar({ image }: NavbarProps) {
             {
               image
                 ? <li className='btn btn-sm bg-dark-primary' onClick={() => signOut()}>Logout</li>
-                : <li className='btn btn-sm bg-dark-primary'>Login</li>
+                : <Link href="/login" className='btn btn-sm bg-dark-primary rounded-none'><li>Login</li></Link>
             }
           </ul>
         </div>
