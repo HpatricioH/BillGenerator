@@ -19,7 +19,7 @@ body {
   width: 310%;
   height: 350px;
   transform: translate3d(-50%, -120%, 0px);
-  mask-image: radial-gradient(farthest-side at 50% 50%, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0));
+  mask-image: radial-gradient(farthest-side at 50% 50%, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
   background-image: linear-gradient(90deg, rgba(var(--rgb-blue-400), 1), rgba(var(--rgb-seafoam-400), 1));
   rotate: -20deg;
   filter: hue-rotate(0deg);
