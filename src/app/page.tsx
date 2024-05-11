@@ -1,4 +1,5 @@
 import { api } from "@/trpc/server"
+import Link from "next/link"
 
 export default async function Home() {
   const getBill = await api.bill.hello.query({ text: "Generate your bills quick and easy" })
@@ -16,7 +17,11 @@ export default async function Home() {
             <p className="py-6">
               {getBill.greeting}
             </p>
-            <button className="btn btn-active">Get Started</button>
+            <Link
+              href="/dashboard"
+              className="btn btn-active">
+              Get Started
+            </Link>
           </div>
         </div>
       </div>
