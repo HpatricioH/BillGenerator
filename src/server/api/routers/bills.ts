@@ -14,4 +14,13 @@ export const billRouter = createTRPCRouter({
         greeting: `${input.text}!`
       }
     }),
+
+    // Get bills 
+    getBills: protectedProcedure.query(({ ctx }) => {
+      return ctx.db.bill.findMany({
+        where: {
+          userId: ctx.session.user.id
+        }
+      })
+    }),
 })
