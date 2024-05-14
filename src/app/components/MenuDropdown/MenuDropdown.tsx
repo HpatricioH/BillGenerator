@@ -10,13 +10,13 @@ const links = [
   {
     name: 'Home',
     href: '/',
-    className: 'group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10',
+    className: 'group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10 cursor-pointer',
     svg: <HomeSvg className='size-4 fill-white/30' />,
   },
   {
     name: 'Dashboard',
     href: '/dashboard',
-    className: 'group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10',
+    className: 'group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10 cursor-pointer',
     svg: <DashboardSvg className='size-4 fill-white/30' />,
   }
 ]
@@ -45,7 +45,7 @@ export default function MenuDropdown({ image }: NavbarProps) {
         >
           <MenuItems
             anchor="bottom end"
-            className="w-52 origin-top-right rounded-xl border border-white/5 bg-white/5 p-1 text-sm/6 text-white [--anchor-gap:var(--spacing-1)] focus:outline-none z-50">
+            className="w-52 origin-top-right rounded-xl border border-white/10 bg-dark-primary p-1 text-sm/6 text-white [--anchor-gap:var(--spacing-1)] focus:outline-none z-50">
             {links.map((link, i) => {
               return (
                 <MenuItem key={i}>
@@ -57,18 +57,18 @@ export default function MenuDropdown({ image }: NavbarProps) {
                 </MenuItem>
               )
             })}
-            <div className="my-1 h-px bg-white/5" />
+            <div className="my-1 h-px bg-white/10" />
             {
               image
                 ? <MenuItem>
                   <p
-                    className='btn btn-sm bg-dark-primary w-full mt-2'
+                    className='btn btn-sm bg-dark-primary hover:bg-dark-primary/10 w-full mt-2 cursor-pointer'
                     onClick={() => signOut()}>
                     Logout
                   </p>
                 </MenuItem>
                 : <MenuItem>
-                  <Link href="/login" className='btn btn-sm bg-dark-primary w-full mt-2'>
+                  <Link href="/login" className='btn btn-sm bg-dark-primary hover:bg-dark-primary/10 w-full mt-2 cursor-pointer'>
                     Login
                   </Link>
                 </MenuItem>

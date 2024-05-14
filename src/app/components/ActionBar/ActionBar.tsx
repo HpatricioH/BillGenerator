@@ -1,5 +1,6 @@
 'use client'
 
+import PlusSvg from "@/app/core/ui/svgs/PlusSvg";
 import { Button } from "@/app/core/utils/Button";
 
 export default function ActionBar() {
@@ -13,8 +14,9 @@ export default function ActionBar() {
       </form>
       <div className="flex flex-col md:flex-row gap-3">
         <Button className="btn-sm">
-          <div className="flex gap-1">
-            Create new Bill
+          <div className="flex justify-center items-center gap-1">
+            <PlusSvg className="w-5 h-5 fill-white" />
+            Create a new Bill
           </div>
         </Button>
       </div>
