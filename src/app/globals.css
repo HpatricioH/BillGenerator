@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  overflow: hidden;
-}
-
 /* variables */
 :root {
   --rgb-blue-400: 0, 122, 255;

@@ -5,7 +5,7 @@ export default async function Home() {
   const getBill = await api.bill.hello.query({ text: "Generate your bills quick and easy" })
 
   return (
-    <main className="hero h-[calc(100vh-10.3rem)] bg-dark-primary text-[#fff] relative">
+    <main className="hero h-[calc(100vh-138px)] bg-dark-primary text-[#fff] relative overflow-hidden">
       <div className="hero-content text-center absolute md:top-40 lg:top-44 xl:top-52">
         <div className="background-gradient">
         </div>
