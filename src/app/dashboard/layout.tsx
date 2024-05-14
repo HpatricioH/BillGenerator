@@ -1,5 +1,4 @@
 import ActionBar from "../components/ActionBar/ActionBar"
-import Footer from "../components/Footer/Footer"
 import InnerMenuBar from "../components/InnerMenuBar/InnerMenuBar"
 
 
@@ -14,7 +13,6 @@ export default function layout({
         <InnerMenuBar />
         <ActionBar />
         {children}
-        <Footer />
       </div>
     </section>
   )
