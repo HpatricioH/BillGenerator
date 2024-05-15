@@ -1,28 +1,26 @@
 import { getServerAuthSession } from "@/server/auth";
-import { api } from "@/trpc/server";
 import { redirect } from "next/navigation"
-import SparklesSvg from "../core/ui/svgs/SparklesSvg";
-import NoBills from "../components/NoBills/NoBills";
+import CardContainer from "../components/CardContainer/CardContainer";
 
-export default async function Page() {
-  const session = await getServerAuthSession();
-  const getBills = await api.bill.getBills.query();
-
-  const testBills = []
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: {
+    query: string;
+  }
+}) {
+  const session = await getServerAuthSession()
+  const query = searchParams?.query ?? ''
 
   if (!session) {
     redirect('/login')
   }
 
-  if (testBills.length === 0) {
-    return (
-      <NoBills />
-    )
-  }
-
   return (
-    <main className="hero h-[calc(100vh-238px)]">
-      Dashboard
+    <main className="hero h-[calc(100vh-238px)] relative">
+      <div className="flex text-center absolute top-5 w-full">
+        <CardContainer query={query} />
+      </div>
     </main>
   )
 }
