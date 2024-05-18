@@ -1,62 +1,50 @@
 'use client'
 
-import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Image from "next/image"
 import Loading from "@/app/core/utils/loading"
-import { useGetBill } from "@/app/lib/hooks/useGetBill"
+import EditSvg from '@/app/core/ui/svgs/EditSvg';
+import DeleteSvg from '@/app/core/ui/svgs/DeleteSvg';
 
+interface BillCardsProps {
+  numMonth: number;
+  description: string
+  billTo: string
+}
 
-export default function BillCards() {
-  const session = useSession()
-  const { invoices } = useGetBill()
+export default function BillCards(props: BillCardsProps) {
   const router = useRouter()
-  const { status } = session
   const month = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December"];
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"];
 
-  if (status === "loading" || invoices.length === 0) {
-    return <Loading />
-  }
-  
+  // TODO: check the deleted id page for layout of the bill. 
   const redirectToInvoice = (id: string) => {
     router.push(`/${id}`)
   }
-  
+
   return (
-    <section className={`${invoices.length === 0 ? 'hidden' : 'bg-[#111827] p-4 rounded-xl w-full'}`}>
-      <h1 className='text-center font-bold text-3xl pb-4'>Invoices</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-        {invoices?.map((invoice, index) => (
-          <div 
-            key={index} 
-            className="bg-[#e5e7eb] p-[0.10rem] cursor-pointer rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 " 
-            onClick={() => redirectToInvoice(invoice?.id)}>
-            <div className="transition-all ease-in duration-75 bg-gray-900 rounded-md group-hover:bg-opacity-70 p-2">
-              <h1 className="font-bold text-lg tracking-wide text-center pb-2">{month[invoice.numMonth]}</h1>
-              <Image
-                src="/images/invoice.png"
-                alt="invoice"
-                width={330}
-                height={300}
-                className="rounded-lg border border-[#111827] mb-2 w-full"
-              />
-              <p>{invoice?.description}</p>
-            </div>
-          </div>
-        
-        ))}
+    <section className="inline-block space-y-2 border border-white/10 bg-dark-midnight rounded-md relative px-4 py-2 w-full">
+      <h1 className='font-bold text-lg pb-4 text-start'>{month[props.numMonth]}</h1>
+      <p className='text-left'>{props.description}</p>
+      <p className='text-xs text-left'>{props.billTo}</p>
+      <div className="relative flex gap-3 items-end justify-end *:fill-white *:w-5 *:h-5 *:cursor-pointer">
+        <span className="tooltip tooltip-info" data-tip="Edit">
+          <EditSvg className="hover:fill-dark-violet" />
+        </span>
+        <span className="tooltip tooltip-info" data-tip="Delete">
+          <DeleteSvg className="hover:fill-dark-violet" />
+        </span>
       </div>
     </section>
   )
