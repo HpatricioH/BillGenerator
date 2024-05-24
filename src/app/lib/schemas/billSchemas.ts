@@ -1,5 +1,5 @@
 import { z } from "zod";
 
-export const getBillsSchema = {
+export const GetBillSchema = z.object({
   id: z.string()
-}
+})

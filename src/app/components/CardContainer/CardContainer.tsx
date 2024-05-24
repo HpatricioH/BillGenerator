@@ -19,7 +19,7 @@ export default async function CardContainer({ query }: { query: string }) {
       {filteredBills.map((bill) => {
         return (
           <Suspense key={bill.id} fallback={<div>loading...</div>}>
-            <BillCards numMonth={bill.numMonth} description={bill.description} billTo={bill.billTo} />
+            <BillCards numMonth={bill.numMonth} description={bill.description} billTo={bill.billTo} id={bill.id} />
           </Suspense>
         )
       })}

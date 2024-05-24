@@ -1,65 +1,62 @@
 'use client'
 
 import React, { useCallback, useEffect } from 'react'
-import { useSession } from 'next-auth/react'
-import { useParams } from 'next/navigation'
 import Loading from '@/app/core/utils/loading'
-import { useGetABill } from '@/app/lib/hooks/useGetABill'
 import { InvoiceServiceDetails } from '../InvoiceServiceDetails/InvoiceServiceDetails'
 import { Button } from '@/app/core/utils/Button'
+import { trpc } from '@/app/core/utils/trpc'
+
+interface BillProps {
+  id: string
+}
 
 
-
-export default function  BillForm () {
-  const session = useSession()
-  const params = useParams()
-  const { id } = params
-  const { status } = session
-  const { invoice } = useGetABill({ id }) 
+export default function BillForm(props: BillProps) {
+  const invoice = trpc.bill.getBill.useQuery({ id: props.id })
 
   const handlePrintInvoice = useCallback(() => {
     window.print()
   }, [])
 
-  const { 
-    address, 
-    city, 
-    province, 
-    postalCode, 
-    phone, 
-    billTo, 
-    amount, 
-    description, 
+  const {
+    address,
+    city,
+    province,
+    postalCode,
+    phone,
+    billTo,
+    amount,
+    description,
     numMonth,
     createdAt,
-    quantity, 
-    UnitPrice } = invoice as any
+    quantity,
+    UnitPrice } = invoice?.data ?? {}
 
-  if (status === "loading" || invoice.length === 0) {
+  if (invoice.isFetching === true) {
     return <Loading />
   }
 
   return (
-    <section className={`${invoice.length === 0 ? 'hidden' : 'bg-[#FFF] text-[#0f172a] w-full p-4 rounded-xl mb-24'}`}>
+    <section className='bg-[#FFF] text-[#0f172a] w-full p-4 rounded-xl mb-24'>
       <h1 className='text-center font-bold text-3xl pb-4'>Invoice</h1>
       <div className='pb-4'>
-        <h2 className='font-bold text-xl'>{session.data?.user?.name}</h2>
+        {/* <h2 className='font-bold text-xl'>{session.data?.user?.name}</h2> */}
         <p>{address}</p>
         <p>{city}, {province} {postalCode}</p>
       </div>
 
       <div className='pb-4'>
         <p>{phone}</p>
-        <p>{session.data?.user?.email}</p>
+        {/* <p>{session.data?.user?.email}</p> */}
       </div>
-      
+
       <div className='flex justify-between pb-4'>
         <div className='w-[28rem]'>
           <p>{billTo}</p>
         </div>
         <div className='flex gap-4'>
           <p>Invoice #: 00001</p>
-          <p>{new Date(createdAt).toLocaleDateString()}</p>
+          {createdAt && <p>{new Date(createdAt).toLocaleDateString()}</p>}
         </div>
       </div>
 
@@ -75,18 +72,18 @@ export default function  BillForm () {
         <tbody>
           <tr className='[&_td]:border [&_td]:p1 [&_td]:border-[#0f172a]'>
             <td className='pl-3'>{description}</td>
-            <td className='text-center'>{quantity}</td>
+            <td className='text-center'>{quantity ?? 0}</td>
             <td className='text-center'>${UnitPrice}</td>
-            <td className='text-center'>${`${!UnitPrice ? '' : quantity*UnitPrice}`}</td>
+            <td className='text-center'>${`${!UnitPrice ? '' : (quantity ?? 0) * UnitPrice}`}</td>
           </tr>
         </tbody>
       </table>
 
-      <p className='text-right pb-4'>Total: ${`${!UnitPrice ? '' : quantity*UnitPrice}`}</p>
+      <p className='text-right pb-4'>Total: ${`${!UnitPrice ? '' : (quantity ?? 0) * UnitPrice}`}</p>
 
       <div className='flex flex-col gap-2'>
         <h3 className='font-bold tracking-normal text-lg'>Service Details</h3>
-        <InvoiceServiceDetails numMonth={numMonth}/>
+        <InvoiceServiceDetails numMonth={(numMonth ?? 0)} />
       </div>
 
       <div className='text-xs font-bold tracking-wider text-end pt-4'>
