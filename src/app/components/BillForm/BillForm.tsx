@@ -8,8 +8,8 @@ import { trpc } from '@/app/core/utils/trpc'
 
 interface BillProps {
   id: string
+  month?: string
 }
-
 
 export default function BillForm(props: BillProps) {
   const invoice = trpc.bill.getBill.useQuery({ id: props.id })
@@ -25,7 +25,6 @@ export default function BillForm(props: BillProps) {
     postalCode,
     phone,
     billTo,
-    amount,
     description,
     numMonth,
     createdAt,

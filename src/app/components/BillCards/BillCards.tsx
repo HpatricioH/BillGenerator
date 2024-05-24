@@ -1,12 +1,8 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-import Image from "next/image"
-import Loading from "@/app/core/utils/loading"
 import DeleteSvg from '@/app/core/ui/svgs/DeleteSvg';
 import ViewSvg from '@/app/core/ui/svgs/ViewSvg';
 import Modal from '../Modal/Modal';
-import { InvoiceModal } from '../InvoiceModal/InvoiceModal';
 import BillForm from '../BillForm/BillForm';
 import { useState } from 'react';
 
@@ -19,7 +15,6 @@ interface BillCardsProps {
 
 export default function BillCards(props: BillCardsProps) {
   const [showModal, setShowModal] = useState(false)
-  const router = useRouter()
 
   const month = [
     "January",
@@ -54,10 +49,9 @@ export default function BillCards(props: BillCardsProps) {
         </span>
       </div>
       <Modal
-        title={month[props.numMonth]}
         setState={setShowModal}
         state={showModal}>{
-          <BillForm id={props.id} />
+          <BillForm id={props.id} month={month[props.numMonth]} />
         }</Modal>
     </section>
   )

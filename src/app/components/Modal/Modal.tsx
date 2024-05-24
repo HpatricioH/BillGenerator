@@ -3,7 +3,7 @@ import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@
 
 interface ModalProps {
   children?: ReactNode;
-  title: string | undefined;
+  title?: string | undefined;
   setState: (value: boolean) => void;
   state: boolean;
 }
