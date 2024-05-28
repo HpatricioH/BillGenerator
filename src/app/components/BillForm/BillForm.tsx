@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import Loading from '@/app/core/utils/loading'
 import { InvoiceServiceDetails } from '../InvoiceServiceDetails/InvoiceServiceDetails'
 import { Button } from '@/app/core/utils/Button'
@@ -9,6 +9,8 @@ import { trpc } from '@/app/core/utils/trpc'
 interface BillProps {
   id: string
   month?: string
+  name: string | null | undefined
+  email: string | null | undefined
 }
 
 export default function BillForm(props: BillProps) {
@@ -36,25 +38,25 @@ export default function BillForm(props: BillProps) {
   }
 
   return (
-    <section className='bg-[#FFF] text-[#0f172a] w-full p-4 rounded-xl mb-24'>
+    <section className='bg-[#FFF] text-[#0f172a] w-full p-6 rounded-xl'>
       <h1 className='text-center font-bold text-3xl pb-4'>Invoice</h1>
       <div className='pb-4'>
-        {/* <h2 className='font-bold text-xl'>{session.data?.user?.name}</h2> */}
+        <h2 className='font-bold text-xl'>{props.name}</h2>
         <p>{address}</p>
         <p>{city}, {province} {postalCode}</p>
       </div>
 
       <div className='pb-4'>
         <p>{phone}</p>
-        {/* <p>{session.data?.user?.email}</p> */}
+        <p>{props.email}</p>
       </div>
 
       <div className='flex justify-between pb-4'>
-        <div className='w-[28rem]'>
+        <div className='w-[24rem]'>
           <p>{billTo}</p>
         </div>
-        <div className='flex gap-4'>
-          <p>Invoice #: 00001</p>
+        <div className='flex gap-2'>
+          <p><span className='font-bold'>Invoice #:</span> 00001</p>
           {createdAt && <p>{new Date(createdAt).toLocaleDateString()}</p>}
         </div>
       </div>

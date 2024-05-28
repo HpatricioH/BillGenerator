@@ -11,6 +11,8 @@ interface BillCardsProps {
   description: string;
   billTo: string;
   id: string;
+  name: string | null | undefined;
+  email: string | null | undefined;
 }
 
 export default function BillCards(props: BillCardsProps) {
@@ -51,7 +53,7 @@ export default function BillCards(props: BillCardsProps) {
       <Modal
         setState={setShowModal}
         state={showModal}>{
-          <BillForm id={props.id} month={month[props.numMonth]} />
+          <BillForm id={props.id} month={month[props.numMonth]} name={props.name} email={props.email} />
         }</Modal>
     </section>
   )
