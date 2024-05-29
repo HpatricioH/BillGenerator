@@ -20,8 +20,8 @@ export const companyInputs = [
   {
     label: 'Phone Number',
     type: 'tel',
-    id: 'phoneNumber',
-    name: 'phoneNumber'
+    id: 'phone',
+    name: 'phone'
   }
 ]
 
