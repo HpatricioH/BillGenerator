@@ -1,5 +1,5 @@
 import {z} from "zod";
-import { GetBillSchema } from "@/app/lib/schemas/billSchemas";
+import { CreateBillSchema, GetBillSchema } from "@/app/lib/schemas/billSchemas";
 
 import {
   createTRPCRouter,
@@ -35,4 +35,18 @@ export const billRouter = createTRPCRouter({
         }
       })
     }),
+
+    // Create a bill 
+    createBill: protectedProcedure
+     .input(CreateBillSchema)
+     .mutation(async ({ ctx, input }) => {
+      return ctx.db.bill.create({
+        data: {
+          ...input,
+          userId: ctx.session.user.id,
+          numMonth: 0, // Add the missing property 'numMonth'
+          createdAt: new Date(), // Add the missing property 'createdAt'
+        }
+      })
+     }),
 })
