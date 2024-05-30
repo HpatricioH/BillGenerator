@@ -3,12 +3,19 @@ import { billInputs, companyInputs } from '@/app/core/utils/formInputs'
 import { invoiceSchema } from '@/app/lib/schemas/billSchemas'
 import { type ZodError } from 'zod';
 import React, { useState } from 'react'
+import { errorToastHandler, successToastHandler } from '@/app/core/utils/toastHandler';
+import { api } from '@/trpc/react';
 
+interface InvoiceModalProps {
+  id: string | undefined
+}
 
-export function InvoiceModal() {
+export function InvoiceModal(props: InvoiceModalProps) {
   const [errorData, setErrorData] = useState(false)
   const [errorField, setErrorField] = useState('');
   const [errorMsg, setErrorMsg] = useState('')
+
+  const createBill = api.bill.createBill.useMutation()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -25,7 +32,7 @@ export function InvoiceModal() {
       UnitPrice: Number(data.UnitPrice),
       amount: Number(data.amount),
       numMonth: new Date().getMonth(),
-      userId: id
+      userId: props.id
     };
 
     if (parsedData.amount) {
@@ -37,8 +44,14 @@ export function InvoiceModal() {
 
     try {
       const data = invoiceSchema.parse(parsedData)
-      console.log(data);
       // if form data is valid
+      createBill.mutate(data, {
+        onSuccess: () => {
+          successToastHandler({ message: 'Bill created successfully!' })
+        }, onError: () => {
+          errorToastHandler({ message: 'Bill not created!' })
+        }
+      })
     } catch (error) {
       const zodError = error as ZodError;
       setErrorData(true)
