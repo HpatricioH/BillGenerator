@@ -22,7 +22,11 @@ interface InvoiceData {
   numMonth: number;
 }
 
-export function InvoiceModal() {
+interface InvoceModalProps {
+  setShowModal: (value: boolean) => void
+}
+
+export function InvoiceModal(props: InvoceModalProps) {
   const [errorData, setErrorData] = useState(false)
   const [errorField, setErrorField] = useState('');
   const [errorMsg, setErrorMsg] = useState('')
@@ -72,8 +76,10 @@ export function InvoiceModal() {
         onSuccess: () => {
           successToastHandler({ message: 'Bill created successfully!' })
           router.refresh()
+          props.setShowModal(false)
         }, onError: () => {
           errorToastHandler({ message: 'Bill not created!' })
+          props.setShowModal(false)
         }
       })
     } catch (error) {

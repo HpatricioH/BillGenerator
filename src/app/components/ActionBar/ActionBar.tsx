@@ -30,7 +30,7 @@ export default function ActionBar() {
       <Modal
         setState={setShowModal}
         state={showModal}>{
-          <InvoiceModal />
+          <InvoiceModal setShowModal={setShowModal} />
         }</Modal>
     </div>
   )
