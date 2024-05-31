@@ -5,6 +5,7 @@ import ViewSvg from '@/app/core/ui/svgs/ViewSvg';
 import Modal from '../Modal/Modal';
 import BillForm from '../BillForm/BillForm';
 import { useState } from 'react';
+import DeleteModal from '../DeleteModal/DeleteModal';
 
 interface BillCardsProps {
   numMonth: number;
@@ -17,6 +18,8 @@ interface BillCardsProps {
 
 export default function BillCards(props: BillCardsProps) {
   const [showModal, setShowModal] = useState(false)
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+
 
   const month = [
     "January",
@@ -36,6 +39,10 @@ export default function BillCards(props: BillCardsProps) {
     setShowModal(true)
   }
 
+  const handleDeleteModal = () => {
+    setShowDeleteModal(true)
+  }
+
   return (
     <section className="inline-block space-y-2 border border-white/10 bg-dark-midnight rounded-md relative px-4 py-2 w-full">
       <h1 className='font-bold text-lg text-center'>{month[props.numMonth]}</h1>
@@ -47,7 +54,7 @@ export default function BillCards(props: BillCardsProps) {
           <ViewSvg className="hover:fill-dark-secondary" onClick={viewModal} />
         </span>
         <span className="tooltip tooltip-info" data-tip="Delete">
-          <DeleteSvg className="hover:fill-dark-secondary" />
+          <DeleteSvg className="hover:fill-dark-secondary" onClick={handleDeleteModal} />
         </span>
       </div>
       <Modal
@@ -55,6 +62,11 @@ export default function BillCards(props: BillCardsProps) {
         state={showModal}>{
           <BillForm id={props.id} month={month[props.numMonth]} name={props.name} email={props.email} />
         }</Modal>
+      <Modal
+        setState={setShowDeleteModal}
+        state={showDeleteModal}>
+        <DeleteModal id={props.id} setDeleteModal={setShowDeleteModal} billMonth={month[props.numMonth]} />
+      </Modal>
     </section>
   )
 }

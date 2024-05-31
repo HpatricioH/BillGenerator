@@ -48,4 +48,15 @@ export const billRouter = createTRPCRouter({
         }
       })
      }),
+
+     // Delete a bill 
+     deleteBill: protectedProcedure
+      .input(GetBillSchema)
+      .mutation(async ({ ctx, input}) => {
+        return ctx.db.bill.delete({
+          where: {
+            id: input.id
+          }
+        })
+      }),
 })
