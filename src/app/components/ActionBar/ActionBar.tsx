@@ -8,11 +8,7 @@ import { useState } from "react";
 import Modal from "../Modal/Modal";
 import { InvoiceModal } from "../InvoiceModal/InvoiceModal";
 
-interface ActionBarProps {
-  id: string | undefined
-}
-
-export default function ActionBar(props: ActionBarProps) {
+export default function ActionBar() {
   const [showModal, setShowModal] = useState(false)
   const pathname = usePathname()
 
@@ -34,7 +30,7 @@ export default function ActionBar(props: ActionBarProps) {
       <Modal
         setState={setShowModal}
         state={showModal}>{
-          <InvoiceModal id={props.id} />
+          <InvoiceModal />
         }</Modal>
     </div>
   )

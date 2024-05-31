@@ -44,8 +44,7 @@ export const billRouter = createTRPCRouter({
         data: {
           ...input,
           userId: ctx.session.user.id,
-          numMonth: 0, // Add the missing property 'numMonth'
-          createdAt: new Date(), // Add the missing property 'createdAt'
+          createdAt: new Date(),
         }
       })
      }),

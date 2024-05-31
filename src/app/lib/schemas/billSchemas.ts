@@ -14,7 +14,8 @@ export const CreateBillSchema = z.object({
   quantity: z.number(),
   UnitPrice: z.number(),
   amount: z.number(),
-  billTo: z.string()
+  billTo: z.string(),
+  numMonth: z.number(),
 })
 
 

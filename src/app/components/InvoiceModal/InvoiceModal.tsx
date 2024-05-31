@@ -5,15 +5,28 @@ import { type ZodError } from 'zod';
 import React, { useState } from 'react'
 import { errorToastHandler, successToastHandler } from '@/app/core/utils/toastHandler';
 import { api } from '@/trpc/react';
+import { useRouter } from 'next/navigation';
 
-interface InvoiceModalProps {
-  id: string | undefined
+interface InvoiceData {
+  description: string;
+  quantity: number;
+  UnitPrice: number;
+  amount: number;
+  billTo: string;
+  userId: string; // Add 'userId' property
+  address: string;
+  city: string;
+  province: string;
+  postalCode: string;
+  phone: string;
+  numMonth: number;
 }
 
-export function InvoiceModal(props: InvoiceModalProps) {
+export function InvoiceModal() {
   const [errorData, setErrorData] = useState(false)
   const [errorField, setErrorField] = useState('');
   const [errorMsg, setErrorMsg] = useState('')
+  const router = useRouter()
 
   const createBill = api.bill.createBill.useMutation()
 
@@ -25,14 +38,19 @@ export function InvoiceModal(props: InvoiceModalProps) {
     const formData = new FormData(form)
     const data = Object.fromEntries(formData)
 
-    // parse quantity, UnitPrice, and amount as numbers
+    // parse the date and extract the month
+    const numMonth: number = new Date().getMonth();
+
+    // parse userId, quantity, UnitPrice, and amount
+    const quantity = Number(data.quantity);
+    const UnitPrice = Number(data.UnitPrice);
+    const amount = Number(quantity * UnitPrice);
+
     const parsedData = {
       ...data,
-      quantity: Number(data.quantity),
-      UnitPrice: Number(data.UnitPrice),
-      amount: Number(data.amount),
-      numMonth: new Date().getMonth(),
-      userId: props.id
+      quantity,
+      UnitPrice,
+      amount,
     };
 
     if (parsedData.amount) {
@@ -42,12 +60,18 @@ export function InvoiceModal(props: InvoiceModalProps) {
       setErrorField('')
     }
 
+
     try {
-      const data = invoiceSchema.parse(parsedData)
+      const validatedData = invoiceSchema.parse(parsedData) as InvoiceData;
+      const { description, quantity, UnitPrice, amount, billTo, address, city, province, postalCode, phone } = validatedData;
+
       // if form data is valid
-      createBill.mutate(data, {
+      createBill.mutate({
+        description, quantity, UnitPrice, amount, billTo, address, city, province, postalCode, phone, numMonth
+      }, {
         onSuccess: () => {
           successToastHandler({ message: 'Bill created successfully!' })
+          router.refresh()
         }, onError: () => {
           errorToastHandler({ message: 'Bill not created!' })
         }
@@ -56,10 +80,8 @@ export function InvoiceModal(props: InvoiceModalProps) {
       const zodError = error as ZodError;
       setErrorData(true)
       setErrorMsg(zodError?.errors[0]?.message ?? '')
-      setErrorField(zodError?.errors[0]?.path[0]?.toString() ?? '')
+      setErrorField(String(zodError?.errors[0]?.path[0]) ?? '')
     }
-
-    // if form data is valid, submit data to the db 
   }
 
   return (

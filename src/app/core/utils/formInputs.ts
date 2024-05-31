@@ -43,11 +43,5 @@ export const billInputs = [
     type: 'number',
     id: 'UnitPrice',
     name: 'UnitPrice'
-  },
-  {
-    label: 'Amount',
-    type: 'number',
-    id: 'amount',
-    name: 'amount'
   }
 ]
