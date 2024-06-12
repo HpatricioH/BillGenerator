@@ -1,12 +1,13 @@
 'use client'
 
-import PlusSvg from "@/app/core/ui/svgs/PlusSvg";
 import { Button } from "@/app/core/utils/Button";
-import SearchBills from "../SearchBills/SearchBills";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import Modal from "../Modal/Modal";
 import { InvoiceModal } from "../InvoiceModal/InvoiceModal";
+import SearchBills from "../SearchBills/SearchBills";
+import Modal from "../Modal/Modal";
+import PlusSvg from "@/app/core/ui/svgs/PlusSvg";
+import AutoGenerateSvg from "@/app/core/ui/svgs/AutoGenerateSvg";
 
 export default function ActionBar() {
   const [showModal, setShowModal] = useState(false)
@@ -20,6 +21,12 @@ export default function ActionBar() {
     <div className="flex flex-col gap-3 md:flex-row  justify-between">
       <SearchBills pathname={pathname} />
       <div className="flex flex-col md:flex-row gap-3">
+        <Button className="btn-sm">
+          <div className="flex justify-center items-center gap-1">
+            <AutoGenerateSvg className="w-5 h-5 fill-white" />
+            Auto-generate Invoice
+          </div>
+        </Button>
         <Button className="btn-sm" onClick={handleModal}>
           <div className="flex justify-center items-center gap-1">
             <PlusSvg className="w-5 h-5 fill-white" />

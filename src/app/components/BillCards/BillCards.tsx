@@ -50,7 +50,7 @@ export default function BillCards(props: BillCardsProps) {
       <p className='text-left pt-1'>{props.description}</p>
       <p className='text-xs text-left'>{props.billTo}</p>
       <div className="relative flex gap-3 items-end justify-end *:fill-white *:w-5 *:h-5 *:cursor-pointer">
-        <span className="tooltip tooltip-info" data-tip="Edit">
+        <span className="tooltip tooltip-info" data-tip="View">
           <ViewSvg className="hover:fill-dark-secondary" onClick={viewModal} />
         </span>
         <span className="tooltip tooltip-info" data-tip="Delete">
