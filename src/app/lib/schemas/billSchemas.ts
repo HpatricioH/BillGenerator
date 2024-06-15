@@ -18,6 +18,21 @@ export const CreateBillSchema = z.object({
   numMonth: z.number(),
 })
 
+export const CreateAutoBillSchema = z.object({
+  address: z.string(),
+  city: z.string(),
+  province: z.string(),
+  postalCode: z.string(),
+  phone: z.string(),
+  description: z.string(),
+  quantity: z.number(),
+  UnitPrice: z.number(),
+  amount: z.number(),
+  billTo: z.string(),
+  numMonth: z.number(),
+  billNumber: z.number(),
+})
+
 
 
 type InvoiceData = {

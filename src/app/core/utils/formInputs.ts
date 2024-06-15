@@ -45,3 +45,18 @@ export const billInputs = [
     name: 'UnitPrice'
   }
 ]
+
+export const autoBillInputs = [
+  {
+    label: 'Description',
+    type: 'text',
+    id: 'description',
+    name: 'description'
+  },
+  {
+    label: 'Unit Price',
+    type: 'number',
+    id: 'UnitPrice',
+    name: 'UnitPrice'
+  }
+]
