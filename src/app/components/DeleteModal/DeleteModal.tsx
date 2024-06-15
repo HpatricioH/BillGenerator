@@ -37,7 +37,7 @@ export default function DeleteModal(props: DeleteModalProps) {
       <div className="flex justify-end gap-3 pt-7 text-white">
         <Button
           onClick={handleDelete}
-          className={`${deleteBill.isLoading ? 'loading loading-spinner' : 'btn-error'} `}>
+          className={`${deleteBill.isLoading ? 'loading loading-spinner' : 'btn-error text-white'} `}>
           Delete Bill
         </Button>
         <Button onClick={handleCloseModal}>Cancel</Button>
