@@ -40,14 +40,15 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
   name          String?
-  email         String    @unique
-  emailVerified DateTime? @map("verifiedAt")
+  email         String     @unique
+  emailVerified DateTime?  @map("verifiedAt")
   image         String?
   accounts      Account[]
   sessions      Session[]
   bills         Bill[]
+  AutoBill      AutoBill[]
 }
 
 model VerificationRequest {
@@ -73,6 +74,25 @@ model Bill {
   amount      Float
   numMonth    Int
   createdAt   DateTime
+  userId      String   @db.ObjectId
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model AutoBill {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  address     String
+  city        String
+  province    String
+  postalCode  String
+  phone       String
+  billTo      String
+  description String
+  quantity    Int
+  UnitPrice   Float
+  amount      Float
+  numMonth    Int
+  createdAt   DateTime
+  billNumber  Int
   userId      String   @db.ObjectId
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
