@@ -27,18 +27,20 @@ export default function ActionBar() {
     <div className="flex flex-col gap-3 md:flex-row  justify-between">
       <SearchBills pathname={pathname} />
       <div className="flex flex-col md:flex-row gap-3">
-        <Button className="btn-sm" onClick={handleModalAutoBill}>
-          <div className="flex justify-center items-center gap-1">
-            <AutoGenerateSvg className="w-5 h-5 fill-white" />
-            Auto-generate Invoice
-          </div>
-        </Button>
-        <Button className="btn-sm" onClick={handleModal}>
-          <div className="flex justify-center items-center gap-1">
-            <PlusSvg className="w-5 h-5 fill-white" />
-            Create a new Bill
-          </div>
-        </Button>
+        {pathname === '/dashboard' ?
+          <Button className="btn-sm" onClick={handleModal}>
+            <div className="flex justify-center items-center gap-1">
+              <PlusSvg className="w-5 h-5 fill-white" />
+              Create a new Bill
+            </div>
+          </Button> :
+          <Button className="btn-sm" onClick={handleModalAutoBill}>
+            <div className="flex justify-center items-center gap-1">
+              <AutoGenerateSvg className="w-5 h-5 fill-white" />
+              Auto-generate Invoice
+            </div>
+          </Button>
+        }
       </div>
       <Modal
         setState={setShowModal}
