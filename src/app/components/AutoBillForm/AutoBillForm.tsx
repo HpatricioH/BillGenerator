@@ -2,16 +2,99 @@
 
 import { Button } from "@/app/core/utils/Button"
 import { autoBillInputs, companyInputs } from "@/app/core/utils/formInputs"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { type ZodError } from 'zod';
+import { invoiceSchema } from "@/app/lib/schemas/billSchemas"
+import { api } from '@/trpc/react';
+import { errorToastHandler, successToastHandler } from "@/app/core/utils/toastHandler"
 
 interface AutoBillFormProps {
   setShowAutoBillModal: (value: boolean) => void
+}
+
+interface InvoiceData {
+  description: string;
+  quantity: number;
+  UnitPrice: number;
+  amount: number;
+  billTo: string;
+  userId: string; // Add 'userId' property
+  address: string;
+  city: string;
+  province: string;
+  postalCode: string;
+  phone: string;
+  numMonth: number;
+  billNumber: number;
 }
 
 export default function AutoBillForm(props: AutoBillFormProps) {
   const [errorData, setErrorData] = useState(false)
   const [errorField, setErrorField] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
+  const router = useRouter()
+
+  const createAutoBill = api.bill.createAutoBill.useMutation()
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    // get all form data 
+    const form = e.currentTarget
+    const formData = new FormData(form)
+    const data = Object.fromEntries(formData)
+
+    // parse the date and extract the month
+    const numMonth: number = new Date().getMonth();
+
+    // parse userId, quantity, UnitPrice, and amount
+    const quantity = Number(data.quantity);
+    const UnitPrice = Number(data.UnitPrice);
+    const billNumber = Number(data.billNumber);
+    const amount = Number(quantity * UnitPrice);
+
+    const parsedData = {
+      ...data,
+      quantity,
+      UnitPrice,
+      amount,
+      billNumber
+    };
+
+    console.log(billNumber);
+
+    if (parsedData.amount) {
+      // clear old error message
+      setErrorData(false)
+      setErrorMsg('')
+      setErrorField('')
+    }
+
+    try {
+      const validatedData = invoiceSchema.parse(parsedData) as InvoiceData;
+      const { description, quantity, UnitPrice, amount, billTo, address, city, province, postalCode, phone, billNumber } = validatedData;
+
+      // if form data is valid
+      createAutoBill.mutate({
+        description, quantity, UnitPrice, amount, billTo, address, city, province, postalCode, phone, numMonth, billNumber
+      }, {
+        onSuccess: () => {
+          successToastHandler({ message: 'Bill created successfully!' })
+          router.refresh()
+          props.setShowAutoBillModal(false)
+        }, onError: () => {
+          errorToastHandler({ message: 'Bill not created!' })
+          props.setShowAutoBillModal(false)
+        }
+      })
+    } catch (error) {
+      const zodError = error as ZodError;
+      setErrorData(true)
+      setErrorMsg(zodError?.errors[0]?.message ?? '')
+      setErrorField(String(zodError?.errors[0]?.path[0]) ?? '')
+    }
+  }
 
   return (
     <section
@@ -24,7 +107,7 @@ export default function AutoBillForm(props: AutoBillFormProps) {
         <h2 className='font-bold text-xl py-2 tracking-wide'>Company Details:</h2>
         {errorData && <p className='text-red-500 text-center'>{errorMsg}</p>}
 
-        <form className={`flex flex-col gap-1`}>
+        <form onSubmit={(e) => handleSubmit(e)} className={`flex flex-col gap-1`}>
           <label className='form-control w-full max-w-xs'>
             <div className='label'>
               <span className='label-text'>Address:</span>

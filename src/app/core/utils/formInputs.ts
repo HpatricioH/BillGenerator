@@ -58,5 +58,11 @@ export const autoBillInputs = [
     type: 'number',
     id: 'UnitPrice',
     name: 'UnitPrice'
+  },
+  {
+    label: 'Bill Number',
+    type: 'number',
+    id: 'billNumber',
+    name: 'billNumber'
   }
 ]
