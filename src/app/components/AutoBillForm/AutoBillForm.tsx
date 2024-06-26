@@ -35,7 +35,7 @@ export default function AutoBillForm(props: AutoBillFormProps) {
   const [errorMsg, setErrorMsg] = useState('')
   const router = useRouter()
 
-  const createAutoBill = api.bill.createAutoBill.useMutation()
+  const createAutoBill = api.autoBill.createAutoBill.useMutation()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
