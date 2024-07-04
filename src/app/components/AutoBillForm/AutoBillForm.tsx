@@ -8,6 +8,7 @@ import { type ZodError } from 'zod';
 import { invoiceSchema } from "@/app/lib/schemas/billSchemas"
 import { api } from '@/trpc/react';
 import { errorToastHandler, successToastHandler } from "@/app/core/utils/toastHandler"
+import weekDayCounter from "@/app/core/utils/weekDayCounter"
 
 interface AutoBillFormProps {
   setShowAutoBillModal: (value: boolean) => void
@@ -48,8 +49,10 @@ export default function AutoBillForm(props: AutoBillFormProps) {
     // parse the date and extract the month
     const numMonth: number = new Date().getMonth();
 
+    const fridays = weekDayCounter({ numMonth })
+
     // parse userId, quantity, UnitPrice, and amount
-    const quantity = Number(data.quantity);
+    const quantity = fridays.length;
     const UnitPrice = Number(data.UnitPrice);
     const billNumber = Number(data.billNumber);
     const amount = Number(quantity * UnitPrice);
@@ -62,8 +65,6 @@ export default function AutoBillForm(props: AutoBillFormProps) {
       billNumber
     };
 
-    console.log(billNumber);
-
     if (parsedData.amount) {
       // clear old error message
       setErrorData(false)
@@ -74,6 +75,9 @@ export default function AutoBillForm(props: AutoBillFormProps) {
     try {
       const validatedData = invoiceSchema.parse(parsedData) as InvoiceData;
       const { description, quantity, UnitPrice, amount, billTo, address, city, province, postalCode, phone, billNumber } = validatedData;
+
+      console.log(validatedData.billNumber);
+
 
       // if form data is valid
       createAutoBill.mutate({
@@ -90,6 +94,7 @@ export default function AutoBillForm(props: AutoBillFormProps) {
       })
     } catch (error) {
       const zodError = error as ZodError;
+      console.log(zodError.errors[0]);
       setErrorData(true)
       setErrorMsg(zodError?.errors[0]?.message ?? '')
       setErrorField(String(zodError?.errors[0]?.path[0]) ?? '')
