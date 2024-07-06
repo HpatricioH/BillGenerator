@@ -33,6 +33,9 @@ export const CreateAutoBillSchema = z.object({
   billNumber: z.number(),
 })
 
+export const DeleteAutoBillSchema = z.object({
+  id: z.string()
+})
 
 
 type InvoiceData = {

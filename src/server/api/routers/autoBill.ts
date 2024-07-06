@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CreateAutoBillSchema } from "@/app/lib/schemas/billSchemas";
+import { CreateAutoBillSchema, DeleteAutoBillSchema } from "@/app/lib/schemas/billSchemas";
 
 import {
   createTRPCRouter,
@@ -29,12 +29,24 @@ export const autoBillRouter = createTRPCRouter({
       })
     }),
 
+  // Get all AutoBills
   getAutoBills: protectedProcedure.query(({ctx}) => {
     return ctx.db.autoBill.findMany({
       where: {
         userId: ctx.session.user.id 
       }
     })
-  })
+  }),
+
+  // Delete an AutoBill
+  deleteAutoBill: protectedProcedure
+    .input(DeleteAutoBillSchema)
+    .mutation(async ({ ctx, input}) => {
+      return ctx.db.autoBill.delete({
+        where: {
+          id: input.id
+        }
+      })
+    }),
 
 })
