@@ -74,10 +74,7 @@ export default function AutoBillForm(props: AutoBillFormProps) {
 
     try {
       const validatedData = invoiceSchema.parse(parsedData) as InvoiceData;
-      const { description, quantity, UnitPrice, amount, billTo, address, city, province, postalCode, phone, billNumber } = validatedData;
-
-      console.log(validatedData.billNumber);
-
+      const { description, quantity, UnitPrice, amount, billTo, address, city, province, postalCode, phone } = validatedData;
 
       // if form data is valid
       createAutoBill.mutate({
