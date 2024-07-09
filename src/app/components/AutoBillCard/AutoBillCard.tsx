@@ -18,6 +18,8 @@ interface BillCardsProps {
   postalCode: string;
   unitPrice: number;
   billNumber: number;
+  phone: string;
+  quantity: number;
 }
 
 export default function AutoBillCard(props: BillCardsProps) {
@@ -46,8 +48,6 @@ export default function AutoBillCard(props: BillCardsProps) {
     setShowDeleteModal(true)
   }
 
-  console.log(props);
-
   return (
     <section className="inline-block space-y-2 border border-white/10 bg-dark-midnight rounded-md relative px-4 py-2 w-full">
       <h1 className='font-bold text-lg text-center'>Auto Generate Bill</h1>
@@ -65,12 +65,26 @@ export default function AutoBillCard(props: BillCardsProps) {
       <Modal
         setState={setShowModal}
         state={showModal}>{
-          <AutoBillViewModal description={props.description} billTo={props.billTo} address={props.address} city={props.city} province={props.province} postalCode={props.postalCode} unitPrice={props.unitPrice} billNumber={props.billNumber} setShowModal={setShowModal} />
+          <AutoBillViewModal
+            description={props.description}
+            billTo={props.billTo}
+            address={props.address}
+            city={props.city}
+            province={props.province}
+            postalCode={props.postalCode}
+            unitPrice={props.unitPrice}
+            billNumber={props.billNumber}
+            setShowModal={setShowModal}
+            quantity={props.quantity}
+            phone={props.phone} />
         }</Modal>
       <Modal
         setState={setShowDeleteModal}
         state={showDeleteModal}>
-        <DeleteModal id={props.id} setDeleteModal={setShowDeleteModal} billMonth={month[props.numMonth]} />
+        <DeleteModal
+          id={props.id}
+          setDeleteModal={setShowDeleteModal}
+          billMonth={month[props.numMonth]} />
       </Modal>
     </section>
   )

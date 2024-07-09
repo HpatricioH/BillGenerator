@@ -1,4 +1,7 @@
 import { Button } from "@/app/core/utils/Button";
+import { errorToastHandler, successToastHandler } from "@/app/core/utils/toastHandler";
+import { api } from '@/trpc/react';
+import { useRouter } from "next/navigation";
 
 interface AutoBillViewModalProps {
   address: string;
@@ -9,23 +12,56 @@ interface AutoBillViewModalProps {
   description: string;
   unitPrice: number;
   billNumber: number;
+  quantity: number;
+  phone: string;
   setShowModal: (value: boolean) => void
 }
 
 export default function AutoBillViewModal(props: AutoBillViewModalProps) {
+  const router = useRouter()
   const autoBillAddress = props.address + "," + props.city + ", " + props.province + " " + props.postalCode;
   const billTo = props.billTo;
   const description = props.description;
   const unitPrice = props.unitPrice;
   const billNumber = props.billNumber;
+  const quantity = props.quantity;
+  const phone = props.phone;
+  const numMonth: number = new Date().getMonth();
+  const createBill = api.bill.createBill.useMutation()
 
   const handleCloseModal = () => {
     props.setShowModal(false)
   }
 
   const handleCreateAutoBill = () => {
-    console.log('Create Auto Bill');
+    const amount = Number(quantity * unitPrice);
+
+    createBill.mutate({
+      address: props.address,
+      city: props.city,
+      province: props.province,
+      postalCode: props.postalCode,
+      billTo: billTo,
+      quantity: quantity,
+      phone: phone,
+      description: description,
+      UnitPrice: unitPrice,
+      amount: amount,
+      numMonth: numMonth,
+    }, {
+      onSuccess: () => {
+        successToastHandler({ message: "Bill created successfully" })
+        router.refresh()
+        props.setShowModal(false)
+        router.push('/dashboard')
+      }, onError: () => {
+        errorToastHandler({ message: "Failed to create bill" })
+        props.setShowModal(false)
+      }
+    });
   }
+
+
   return (
     <div className="text-white/50 p-4">
       <h1 className="text-white text-center text-xl font-bold tracking-wide ">Auto Bill Details</h1>
