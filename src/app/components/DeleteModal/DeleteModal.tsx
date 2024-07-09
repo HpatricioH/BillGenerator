@@ -3,7 +3,7 @@
 import { Button } from "@/app/core/utils/Button"
 import { errorToastHandler, successToastHandler } from "@/app/core/utils/toastHandler"
 import { api } from "@/trpc/react"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 
 interface DeleteModalProps {
   id: string
@@ -13,7 +13,10 @@ interface DeleteModalProps {
 
 export default function DeleteModal(props: DeleteModalProps) {
   const router = useRouter()
-  const deleteBill = api.bill.deleteBill.useMutation()
+  const pathname = usePathname()
+  const deleteBill = pathname === '/dashboard' ?
+    api.bill.deleteBill.useMutation() :
+    api.autoBill.deleteAutoBill.useMutation()
 
   const handleDelete = () => {
     deleteBill.mutate({ id: props.id }, {
