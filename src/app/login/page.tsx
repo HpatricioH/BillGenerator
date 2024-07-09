@@ -22,7 +22,7 @@ export default function LoginPage() {
 
   return (
     <main className="hero h-[calc(100vh-138px)] bg-dark-primary text-[#fff] relative">
-      <div className="card w-96 shadow-xl shadow-dark-secondary/40 bg-dark-primary rounded-none border border-white/10">
+      <div className="card w-96 shadow-xl shadow-dark-secondary/40 bg-dark-primary rounded-none border border-white/10 absolute md:top-40 lg:top-44 xl:top-52">
         <div className="card-body text-center">
           <h2 className="card-title justify-center">Login</h2>
           <p className="text-white/50">Welcome Back!</p>
