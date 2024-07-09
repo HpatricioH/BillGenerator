@@ -1,8 +1,9 @@
-import { api } from "@/trpc/server"
 import Link from "next/link"
+import { getServerAuthSession } from "@/server/auth";
+
 
 export default async function Home() {
-  const getBill = await api.bill.hello.query({ text: "Generate your bills quick and easy" })
+  const session = await getServerAuthSession()
 
   return (
     <main className="hero h-[calc(100vh-138px)] bg-dark-primary text-[#fff] relative overflow-hidden">
@@ -15,10 +16,10 @@ export default async function Home() {
           </h1>
           <div className="flex flex-col items-center gap-2 z-10">
             <p className="py-6">
-              {getBill.greeting}
+              Generate your bills quick and easy
             </p>
             <Link
-              href="/dashboard"
+              href={!session ? "/login" : "/dashboard"}
               className="btn btn-active">
               Get Started
             </Link>
