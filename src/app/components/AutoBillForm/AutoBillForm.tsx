@@ -91,7 +91,6 @@ export default function AutoBillForm(props: AutoBillFormProps) {
       })
     } catch (error) {
       const zodError = error as ZodError;
-      console.log(zodError.errors[0]);
       setErrorData(true)
       setErrorMsg(zodError?.errors[0]?.message ?? '')
       setErrorField(String(zodError?.errors[0]?.path[0]) ?? '')
