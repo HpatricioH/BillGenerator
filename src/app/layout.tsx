@@ -1,10 +1,17 @@
 import './globals.css'
+import 'react-toastify/dist/ReactToastify.css';
+
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import { AuthProvider } from '@/auth/providers'
 import { Header } from './components/Header/Header'
+import Footer from './components/Footer/Footer'
+import { TRPCReactProvider } from '@/trpc/react'
+import { ToastContainer } from 'react-toastify'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({
+  subsets: ['latin'],
+  variable: "--font-sans"
+})
 
 export const metadata: Metadata = {
   title: 'Bill Generator',
@@ -18,11 +25,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} overflow-hidden`}>
-        <AuthProvider>
-          <Header/>
+      <body className={`${inter.className}`}>
+        <TRPCReactProvider>
+          <ToastContainer />
+          <Header />
           {children}
-        </AuthProvider>
+          <Footer />
+        </TRPCReactProvider>
       </body>
     </html>
   )

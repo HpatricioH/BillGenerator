@@ -11,19 +11,19 @@ datasource db {
 }
 
 model Account {
-  id                String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String  @db.ObjectId
-  type              String
-  provider          String
-  providerAccountId String
+  id                 String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId             String  @db.ObjectId
+  type               String
+  provider           String
+  providerAccountId  String
   refresh_token      String? @db.String
   access_token       String? @db.String
   expires_at         Int?
   token_type         String?
-  scope             String?
+  scope              String?
   id_token           String? @db.String
   session_state      String?
-  oauth_token_secret  String?
+  oauth_token_secret String?
   oauth_token        String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -33,34 +33,35 @@ model Account {
 
 model Session {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  sessionToken String
+  sessionToken String   @unique
   userId       String   @db.ObjectId
   expires      DateTime
-  user         User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
   name          String?
-  email         String    @unique
-  emailVerified DateTime? @map("verifiedAt")
+  email         String     @unique
+  emailVerified DateTime?  @map("verifiedAt")
   image         String?
   accounts      Account[]
   sessions      Session[]
   bills         Bill[]
+  AutoBill      AutoBill[]
 }
 
 model VerificationRequest {
-  id         String  @id @default(auto()) @map("_id") @db.ObjectId
-  identifier String  
-  token      String  @unique
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  identifier String
+  token      String   @unique
   expires    DateTime
 
   @@unique([identifier, token])
 }
 
 model Bill {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   address     String
   city        String
   province    String
@@ -73,6 +74,25 @@ model Bill {
   amount      Float
   numMonth    Int
   createdAt   DateTime
-  userId      String  @db.ObjectId
-  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String   @db.ObjectId
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model AutoBill {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  address     String
+  city        String
+  province    String
+  postalCode  String
+  phone       String
+  billTo      String
+  description String
+  quantity    Int
+  UnitPrice   Float
+  amount      Float
+  numMonth    Int
+  createdAt   DateTime
+  billNumber  Int
+  userId      String   @db.ObjectId
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

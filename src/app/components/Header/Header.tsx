@@ -1,67 +1,15 @@
-'use client'
-import React, { useState } from 'react'
-import { useSession, signOut } from "next-auth/react"
-import Image from 'next/image'
-import { MenuModal } from '../MenuModal/MenuModal'
-import { InvoiceModal } from '../InvoiceModal/InvoiceModal'
-import Link from 'next/link'
+import { authOptions } from "@/server/auth";
+import { getServerSession } from "next-auth"
+import Navbar from "../Navbar/Navbar";
 
-
-
-export function Header() {
-  const [userModal, setUserModal] = useState(false)
-  const [invoiceModal, setInvoiceModal] = useState(false)
-  const session = useSession()
-  const { status } = session
-  const { email, image, name } = session?.data?.user || { name: '', email: '', image: '' }
-
-
-  const handleShowUserModal = () => {
-    !userModal ? setUserModal(true) : setUserModal(false)
-  }
+export async function Header() {
+  const session = await getServerSession(authOptions)
 
   return (
-    <header className={`${status === 'loading' ? 'hidden' : 'p-4 bg-[#030712] text-[#fff] print:hidden'}`}>
-      <nav className='flex gap-4 justify-end'>
-        <ul className='flex flex-row w-full'>
-          <li className='flex-1 cursor-pointer'>
-            <Link href='/' className='flex'>
-              <Image
-                src='/images/logo.png'
-                alt='logo'
-                width={50}
-                height={50}
-              />
-              <p className='flex items-center uppercase font-bold tracking-widest'>Invoice Generator</p>
-            </Link>
-          </li>
-          <li onClick={handleShowUserModal} className='cursor-pointer flex-2 pt-[0.3rem]'>
-            <Image
-              src={session?.data?.user?.image || '/images/person-fill.svg'}
-              alt='user image'
-              width={50}
-              height={50}
-              className='rounded-xl' />
-          </li>
-        </ul>
-      </nav>
-      {userModal && (
-        <MenuModal
-          setUserModal={setUserModal}
-          email={email || ''}
-          image={image || ''}
-          name={name || ''}
-          signOut={() => signOut()}
-          invoiceModal={invoiceModal}
-          setInvoiceModal={setInvoiceModal}
-        />
-      )}
-      {invoiceModal && (
-        <InvoiceModal
-          setInvoiceModal={setInvoiceModal}
-          invoiceModal={invoiceModal}
-        />
-      )}
+    <header className='px-4 bg-dark-primary text-white sticky top-0 w-full pt-4 duration-300 z-50'>
+      <div className='flex container pl-4 pr-4 items-center justify-between mx-auto'>
+        <Navbar image={session?.user.image} />
+      </div>
     </header>
   )
 }

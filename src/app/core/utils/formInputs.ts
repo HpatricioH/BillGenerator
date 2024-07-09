@@ -20,8 +20,8 @@ export const companyInputs = [
   {
     label: 'Phone Number',
     type: 'tel',
-    id: 'phoneNumber',
-    name: 'phoneNumber'
+    id: 'phone',
+    name: 'phone'
   }
 ]
 
@@ -43,11 +43,26 @@ export const billInputs = [
     type: 'number',
     id: 'UnitPrice',
     name: 'UnitPrice'
+  }
+]
+
+export const autoBillInputs = [
+  {
+    label: 'Description',
+    type: 'text',
+    id: 'description',
+    name: 'description'
   },
   {
-    label: 'Amount',
+    label: 'Unit Price',
     type: 'number',
-    id: 'amount',
-    name: 'amount'
+    id: 'UnitPrice',
+    name: 'UnitPrice'
+  },
+  {
+    label: 'Bill Number',
+    type: 'number',
+    id: 'billNumber',
+    name: 'billNumber'
   }
 ]
