@@ -47,7 +47,9 @@ export default function AutoBillForm(props: AutoBillFormProps) {
     const data = Object.fromEntries(formData)
 
     // parse the date and extract the month
-    const numMonth: number = new Date().getMonth();
+    const numMonth: number = new Date().getMonth() - 1;
+
+    console.log(numMonth);
 
     const fridays = weekDayCounter({ numMonth })
 

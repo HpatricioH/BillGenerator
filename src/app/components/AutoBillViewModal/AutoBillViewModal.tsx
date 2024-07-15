@@ -26,7 +26,7 @@ export default function AutoBillViewModal(props: AutoBillViewModalProps) {
   const billNumber = props.billNumber;
   const quantity = props.quantity;
   const phone = props.phone;
-  const numMonth: number = new Date().getMonth();
+  const numMonth: number = new Date().getMonth() - 1;
   const createBill = api.bill.createBill.useMutation()
 
   const handleCloseModal = () => {
