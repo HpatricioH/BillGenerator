@@ -5,16 +5,16 @@ import { Button } from "../core/utils/Button";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 
+
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
 
   const handleSignIn = async () => {
     try {
       setLoading(true);
-      const response = await signIn("google", { callbackUrl: '/dashboard' })
-      console.log(response);
+      await signIn("google", { callbackUrl: '/dashboard' })
     } catch (error) {
-      console.log(error);
+      throw new Error(String(error))
     } finally {
       setLoading(false);
     }
@@ -29,11 +29,13 @@ export default function LoginPage() {
           <Button
             className="bg-slate-200 text-black hover:bg-slate-300"
             onClick={handleSignIn}>
-            <Image
-              src={'/icons/icon-google.svg'}
-              alt="google icon"
-              width={20}
-              height={20} />
+            {loading ?
+              <span className="loading loading-spinner"></span> :
+              <Image
+                src={'/icons/icon-google.svg'}
+                alt="google icon"
+                width={20}
+                height={20} />}
             Continue with Google
           </Button>
         </div>
