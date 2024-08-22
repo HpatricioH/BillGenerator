@@ -1,7 +1,8 @@
 'use client'
 
-import React, { useCallback } from 'react'
+import React, { useRef } from 'react'
 import Loading from '@/app/core/utils/loading'
+import { useReactToPrint } from 'react-to-print'
 import { InvoiceServiceDetails } from '../InvoiceServiceDetails/InvoiceServiceDetails'
 import { Button } from '@/app/core/utils/Button'
 import { trpc } from '@/app/core/utils/trpc'
@@ -15,10 +16,13 @@ interface BillProps {
 
 export default function BillForm(props: BillProps) {
   const invoice = trpc.bill.getBill.useQuery({ id: props.id })
+  const componentRef = useRef(null)
 
-  const handlePrintInvoice = useCallback(() => {
-    window.print()
-  }, [])
+  const handlePrintInvoice = useReactToPrint({
+    content: () => componentRef.current,
+    documentTitle: `${props.month}-bill`,
+    onPrintError: () => alert("There is an error when printing"),
+  })
 
   const {
     address,
@@ -38,7 +42,7 @@ export default function BillForm(props: BillProps) {
   }
 
   return (
-    <section className='bg-[#FFF] text-[#0f172a] w-full p-6 rounded-xl'>
+    <section className='bg-[#FFF] text-[#0f172a] w-full p-6 rounded-xl' ref={componentRef}>
       <h1 className='text-center font-bold text-3xl pb-4'>Invoice</h1>
       <div className='pb-4'>
         <h2 className='font-bold text-xl'>{props.name}</h2>
@@ -87,7 +91,7 @@ export default function BillForm(props: BillProps) {
         <InvoiceServiceDetails numMonth={(numMonth ?? 0)} />
       </div>
 
-      <div className='text-xs font-bold tracking-wider text-end pt-4'>
+      <div className='text-xs font-bold tracking-wider text-end pt-4 print:hidden'>
         <Button onClick={handlePrintInvoice} className={'bg-opacity-0  group-hover:bg-opacity-20'}>Print</Button>
       </div>
     </section>
