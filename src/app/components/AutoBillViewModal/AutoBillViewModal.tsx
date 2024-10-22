@@ -51,9 +51,9 @@ export default function AutoBillViewModal(props: AutoBillViewModalProps) {
     }, {
       onSuccess: () => {
         successToastHandler({ message: "Bill created successfully" })
-        router.refresh()
         props.setShowModal(false)
         router.push('/dashboard')
+        router.refresh()
       }, onError: () => {
         errorToastHandler({ message: "Failed to create bill" })
         props.setShowModal(false)
@@ -80,6 +80,7 @@ export default function AutoBillViewModal(props: AutoBillViewModalProps) {
       <div className="flex justify-end gap-3 pt-7 text-white">
         <Button
           onClick={handleCreateAutoBill}
+          className={`${createBill.isLoading ? 'loading loading-spinner' : ""}`}
         >
           Generate Bill
         </Button>
