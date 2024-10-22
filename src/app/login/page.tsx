@@ -28,7 +28,9 @@ export default function LoginPage() {
           <p className="text-white/50">Welcome Back!</p>
           <Button
             className="bg-slate-200 text-black hover:bg-slate-300"
-            onClick={handleSignIn}>
+            onClick={handleSignIn}
+            id="google-login"
+          >
             {loading ?
               <span className="loading loading-spinner"></span> :
               <Image
