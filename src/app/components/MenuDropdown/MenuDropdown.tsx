@@ -24,7 +24,7 @@ const links = [
 export default function MenuDropdown({ image }: NavbarProps) {
   return (
     <div>
-      <Menu>
+      <Menu as='div'>
         <MenuButton className="btn btn-circle avatar">
           <div className="w-10 rounded-full">
             <Image
