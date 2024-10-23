@@ -19,7 +19,6 @@ interface BillCardsProps {
   unitPrice: number;
   billNumber: number;
   phone: string;
-  quantity: number;
 }
 
 export default function AutoBillCard(props: BillCardsProps) {
@@ -75,7 +74,6 @@ export default function AutoBillCard(props: BillCardsProps) {
             unitPrice={props.unitPrice}
             billNumber={props.billNumber}
             setShowModal={setShowModal}
-            quantity={props.quantity}
             phone={props.phone} />
         }</Modal>
       <Modal

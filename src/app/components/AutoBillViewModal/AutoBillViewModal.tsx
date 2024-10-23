@@ -1,5 +1,6 @@
 import { Button } from "@/app/core/utils/Button";
 import { errorToastHandler, successToastHandler } from "@/app/core/utils/toastHandler";
+import weekDayCounter from "@/app/core/utils/weekDayCounter";
 import { api } from '@/trpc/react';
 import { useRouter } from "next/navigation";
 
@@ -12,7 +13,6 @@ interface AutoBillViewModalProps {
   description: string;
   unitPrice: number;
   billNumber: number;
-  quantity: number;
   phone: string;
   setShowModal: (value: boolean) => void
 }
@@ -24,7 +24,6 @@ export default function AutoBillViewModal(props: AutoBillViewModalProps) {
   const description = props.description;
   const unitPrice = props.unitPrice;
   const billNumber = props.billNumber;
-  const quantity = props.quantity;
   const phone = props.phone;
   const numMonth: number = new Date().getMonth() - 1;
   const createBill = api.bill.createBill.useMutation()
@@ -34,6 +33,8 @@ export default function AutoBillViewModal(props: AutoBillViewModalProps) {
   }
 
   const handleCreateAutoBill = () => {
+    const weekCounter = weekDayCounter({ numMonth })
+    const quantity = weekCounter.length;
     const amount = Number(quantity * unitPrice);
 
     createBill.mutate({
