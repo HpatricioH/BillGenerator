@@ -31,7 +31,7 @@ export default async function AutoCardContainer({ query }: { query: string }) {
               unitPrice={bill.UnitPrice}
               billNumber={bill.billNumber}
               phone={bill.phone}
-              quantity={bill.quantity} />
+            />
           </Suspense>
         )
       })}
