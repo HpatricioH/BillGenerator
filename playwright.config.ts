@@ -30,27 +30,54 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
-    headless: false, 
   },
-  
+
 
 
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: 'setup',
+      testMatch: /.*\.setup\.ts/,
+      use: {
+        ...devices['Desktop Chrome'],
+        channel: 'chrome',
+        headless: false,
+        launchOptions: {
+          args: [
+            '--disable-blink-features=AutomationControlled',
+            '--no-sandbox',
+            '--disable-dev-shm-usage',
+          ],
+        },
+      }
     },
+    // {
+    //   name: 'chromium',
+    //   use: {
+    //     ...devices['Desktop Chrome'],
+    //     storageState: 'playwright/.auth/user.json'
+    //   },
+    //   dependencies: ['setup'],
+    // },
 
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
+    // {
+    //   name: 'firefox',
+    //   use: { 
+    //     ...devices['Desktop Firefox'],
+    //     storageState: 'playwright/.auth/user.json'
+    //   },
+    //   dependencies: ['setup'],
+    // },
 
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
+    // {
+    //   name: 'webkit',
+    //   use: { 
+    //     ...devices['Desktop Safari'],
+    //     storageState: 'playwright/.auth/user.json'
+    //    },
+    //    dependencies: ['setup'],
+    // },
 
     /* Test against mobile viewports. */
     // {
@@ -67,10 +94,15 @@ export default defineConfig({
     //   name: 'Microsoft Edge',
     //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
     // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
+    {
+      name: 'Google Chrome',
+      use: { 
+        ...devices['Desktop Chrome'], 
+        channel: 'chrome',
+        storageState: 'playwright/.auth/user.json' 
+      },
+      dependencies: ['setup'],
+    },
   ],
 
   /* Run your local dev server before starting the tests */
