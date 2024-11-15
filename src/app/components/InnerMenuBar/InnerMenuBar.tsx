@@ -7,7 +7,7 @@ export default function InnerMenuBar() {
   const pathname = usePathname()
 
   return (
-    <div className="border-b-2 border-white/10 bg-dark-primary navbar pb-0">
+    <div className="border-b-2 border-white/10 navbar pb-0">
       <ul className="justify-start gap-6">
         <li>
           <Link

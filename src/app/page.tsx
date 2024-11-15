@@ -6,7 +6,7 @@ export default async function Home() {
   const session = await getServerAuthSession()
 
   return (
-    <main className="hero h-[calc(100vh-138px)] bg-dark-primary text-[#fff] relative overflow-hidden">
+    <main className="hero h-[calc(100vh-138px)] text-[#fff] relative overflow-hidden">
       <div className="hero-content text-center absolute md:top-40 lg:top-44 xl:top-52">
         <div className="background-gradient">
         </div>

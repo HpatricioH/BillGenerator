@@ -24,7 +24,7 @@ export default function ActionBar() {
   }
 
   return (
-    <div className="flex flex-col gap-3 md:flex-row  justify-between">
+    <div className="flex flex-col gap-3 md:flex-row justify-between py-5">
       <SearchBills pathname={pathname} />
       <div className="flex flex-col md:flex-row gap-3">
         {pathname === '/dashboard' ?
