@@ -10,7 +10,7 @@ export interface NavbarProps {
 
 export default function Navbar({ image }: NavbarProps) {
   return (
-    <nav className="navbar bg-dark-primary">
+    <nav className="navbar">
       <div className="flex-1">
         <Link href='/' className='flex'>
           <Image
