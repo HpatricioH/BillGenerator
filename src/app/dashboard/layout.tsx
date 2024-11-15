@@ -8,8 +8,8 @@ export default async function layout({
   children: React.ReactNode
 }) {
   return (
-    <section className="bg-dark-primary text-[#fff] relative">
-      <div className="flex flex-col gap-5 container m-auto px-6">
+    <section className="text-[#fff] relative">
+      <div className="grid max-h-dvh grid-row-[auto 1fr auto] container m-auto px-6">
         <InnerMenuBar />
         <ActionBar />
         {children}

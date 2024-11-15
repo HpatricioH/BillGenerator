@@ -17,8 +17,8 @@ export default async function Page({
   }
 
   return (
-    <main className="hero h-[calc(100vh-238px)] relative">
-      <div className="flex text-center absolute top-5 w-full">
+    <main className=" relative">
+      <div className="flex text-center">
         <CardContainer query={query} />
       </div>
     </main>

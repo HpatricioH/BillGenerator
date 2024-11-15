@@ -28,9 +28,11 @@ export default function RootLayout({
       <body className={`${inter.className}`}>
         <TRPCReactProvider>
           <ToastContainer />
-          <Header />
-          {children}
-          <Footer />
+          <div className='grid max-h-dvh grid-row-[auto 1fr auto]'>
+            <Header />
+            {children}
+            <Footer />
+          </div>
         </TRPCReactProvider>
       </body>
     </html>
